@@ -9,7 +9,7 @@ package dsa;
  *
  * @author User
  */
-public class Flower implements Order{
+public class Flower implements OrderInterface{
     
     private String flowerID;
     private String name;

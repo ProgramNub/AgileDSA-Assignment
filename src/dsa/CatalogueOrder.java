@@ -53,8 +53,10 @@ public class CatalogueOrder {
         }while(type > 3 || type < 1);
         
         //Display order
-        System.out.print("Your order is RM " + bouquetOrderPrice);
+        System.out.print("Your order is RM " + flowerOrderPrice);
     }
+    
+    
     
     private static double FreshFlowers(){
         
@@ -71,15 +73,9 @@ public class CatalogueOrder {
             flowers.add(flower2);
             flowers.add(flower3);
             
-            //Display list of flowers
-            Iterator fl = flowers.listIterator();
-            int i = 1;
-            System.out.println("/n/n");
-            while(fl.hasNext())
-                {
-                    System.out.println(i + "." + fl.next());
-                    i++;
-                }
+
+            System.out.println("");
+            
                 
             char ans = 'Y';
             double flowerTtlPrice = 0;
@@ -87,9 +83,14 @@ public class CatalogueOrder {
             do{
                 int n;
                 do{
+                    for(int i = 0; i < flowers.size(); i++)
+                    {
+                        System.out.println(i + 1 + "." + flowers.get(i));
+                        
+                    }
                     System.out.print("Please choose the digit of flower that you wish to buy:");
                     n = scan.nextInt();
-                    if(n > flowers.size() && n < 0 && !scan.hasNextInt())
+                    if(n > flowers.size() && n < 0 )
                         System.out.println("Incorrect input, please enter input as listed.");
                 }while(n > flowers.size() && n < 0 && !scan.hasNextInt());
                 
@@ -97,25 +98,25 @@ public class CatalogueOrder {
                 do{
                     System.out.print("Please number of flower you wish to buy:");
                     qty = scan.nextInt();
-                    if(qty > flowers.get(n - 1).getQuantity() && qty < 0)
+                    if(qty > flowers.get(n - 1).getQuantity() || qty < 0)
                         System.out.println("Please enter a valid quantity.");
-                    else if(!scan.hasNextInt())
-                        System.out.println("Incorrect input, please enter input as listed.");
+//                    else if(!scan.hasNextInt())
+//                        System.out.println("Incorrect input, please enter input as listed.");
                     
-                }while(qty > flowers.get(n - 1).getQuantity() && !scan.hasNextInt());
+                }while(qty > flowers.get(n - 1).getQuantity());
                 
                 
                 flowerTtlPrice += flower.calculateBill(flowers.get(n - 1).getPrice(), qty);
-
+                flowers.get(n - 1).setQuantity(flowers.get(n - 1).getQuantity()- qty);
+                
                 //checking
                 do{
-                    
                     System.out.print("Do you want to buy another flower(Y/N):");
-                    ans = scan.next().charAt(0);
-                    if(ans != 'I' && ans != 'C'){
+                    ans = scan.next().toUpperCase().charAt(0);
+                    if(ans != 'Y' && ans != 'N'){
                         System.out.println("Incorrect input, please enter input as listed.");
                     }
-                }while(ans != 'I' && ans != 'C');
+                }while(ans != 'Y' && ans != 'N');
             }while(ans == 'Y');
         return flowerTtlPrice;
     }
@@ -133,36 +134,50 @@ public class CatalogueOrder {
             bouquets.add(bouquet1);
             bouquets.add(bouquet2);
             bouquets.add(bouquet3);
-            Iterator bl = bouquets.listIterator();
-            int i = 1;
-            System.out.println("/ln/ln");
-            while(bl.hasNext())
-                {
-                    System.out.println(i + "." + bl.next());
-                    i++;
-                }
-                
+            System.out.println("");
+            
             char ans = 'Y';
             double bouquetTtlPrice = 0;
-            while(ans == 'Y'){
-                System.out.print("Please choose the bouquet that you wish to buy:");
-                int n = scan.nextInt();
+            //Choose what flower and how much
+            do{
+                for(int i = 0; i < bouquets.size(); i++)
+                    {
+                        System.out.println(i + 1 + "." + bouquets.get(i));
+                        
+                    }
+                int n;
+                do{
+                    System.out.print("Please choose the digit of bouquet that you wish to buy:");
+                    n = scan.nextInt();
+                    if(n > bouquets.size() && n < 0 )
+                        System.out.println("Incorrect input, please enter input as listed.");
+                }while(n > bouquets.size() && n < 0);
                 
-                System.out.print("Please number of bouquet you wish to buy:");
-                int qty = scan.nextInt();
+                int qty;
+                do{
+                    System.out.print("Please number of bouquet you wish to buy:");
+                    qty = scan.nextInt();
+                    if(qty > bouquets.get(n - 1).getQuantity() || qty < 0)
+                        System.out.println("Please enter a valid quantity.");
+//                    else if(!scan.hasNextInt())
+//                        System.out.println("Incorrect input, please enter input as listed.");
+                    
+                }while(qty > bouquets.get(n - 1).getQuantity());
+                
                 
                 bouquetTtlPrice += bouquet.calculateBill(bouquets.get(n - 1).getPrice(), qty);
-                
-                System.out.print("Do you want to buy another bouquet(Y/N):");
-                ans = scan.next().charAt(0);
+                bouquets.get(n - 1).setQuantity(bouquets.get(n - 1).getQuantity()- qty);
+
                 //checking
-                while(ans != 'I' || ans != 'C'){
-                    System.out.println("Incorrect input, please enter input as listed.");
+                do{
                     System.out.print("Do you want to buy another bouquet(Y/N):");
-                    ans = scan.next().charAt(0);
-                }
-                
-            }
+                    ans = scan.next().toUpperCase().charAt(0);
+                    if(ans != 'Y' && ans != 'N'){
+                        System.out.println("Incorrect input, please enter input as listed.");
+                    }
+                }while(ans != 'Y' && ans != 'N');
+            }while(ans == 'Y');
+            
         return bouquetTtlPrice;
     }
 }

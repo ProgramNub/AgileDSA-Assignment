@@ -9,10 +9,8 @@ package dsa;
  *
  * @author User
  */
-public class Order<T> {
+public interface OrderInterface<T> {
     
-    private String name;
-    private int qtyOrdered;
-    private char type;
-    private double unitPrice;
+    public double calculateBill(double price, int quantity);
+    
 }
