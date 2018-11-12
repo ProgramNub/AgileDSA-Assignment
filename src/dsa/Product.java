@@ -5,26 +5,35 @@
  */
 package dsa;
 
-import java.util.Objects;
-
 /**
  *
  * @author User
  */
-public class Product {
+public class Product implements OrderInterface{
     
     private String productID;
     private String name;
-    private float price;
+    private char type;
+    private double price;
     private int quantity;
 
     public Product() {
     }
 
-    public Product(String name, float price, int quantity) {
+    public Product(String productID, String name, char type, double price, int quantity) {
+        this.productID = productID;
         this.name = name;
+        this.type = type;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public String getName() {
@@ -35,11 +44,19 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public char getType() {
+        return type;
+    }
+
+    public void setType(char type) {
+        this.type = type;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -51,38 +68,25 @@ public class Product {
         this.quantity = quantity;
     }
 
+   
+
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.name);
-        hash = 37 * hash + Float.floatToIntBits(this.price);
-        hash = 37 * hash + this.quantity;
-        return hash;
+    public double calculateBill(double price, int qty){
+        
+        double bouquetUnitPrice = price * qty;
+        
+        double ttlBouquet = 0;
+        
+        ttlBouquet += bouquetUnitPrice;
+        
+        return ttlBouquet;
     }
 
+    
+    
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Product other = (Product) obj;
-        if (Float.floatToIntBits(this.price) != Float.floatToIntBits(other.price)) {
-            return false;
-        }
-        if (this.quantity != other.quantity) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-
-        return true;
+    public String toString() {
+        return productID + "  " + name + "  " + type + "  " + price + "  " + quantity;
     }
     
     

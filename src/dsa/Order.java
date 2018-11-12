@@ -11,8 +11,5 @@ package dsa;
  */
 public class Order<T> {
     
-    private String name;
-    private int qtyOrdered;
-    private char type;
-    private double unitPrice;
+    private List<T> items;
 }
