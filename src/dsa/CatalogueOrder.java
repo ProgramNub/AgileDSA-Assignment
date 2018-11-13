@@ -25,22 +25,15 @@ public class CatalogueOrder {
         
         //Check whether is individual or corporate customer
 
-        char cust = 'I';
-        boolean ok = true;
+        String cust;
+  
         do{
                 
                 System.out.print("Individual or corporate customer? (I/C): ");
-                cust = scan.next().toUpperCase().charAt(0);
-                if(cust != 'I' && cust != 'C'){
+                cust = scan.nextLine();
+                if(!cust.matches("^[IiCc]$"))
                     System.out.println("Incorrect input, please enter input as listed.");
-                    ok = false;
-                }
-//                else if(cust = null){
-//                    System.out.println("Incorrect input, please enter input as listed.");
-//                    ok = false;
-//                }
-
-        }while(cust != 'I' && cust != 'C');
+        }while(!cust.matches("^[IiCc]$"));
 
         System.out.println("");
         
@@ -65,8 +58,8 @@ public class CatalogueOrder {
             products.add(bouquet3);
         
         //Let user choose what they want to order
-        int type;
-        char ans;
+        String type;
+        String ans;
         do{
                     do{
                         
@@ -74,21 +67,25 @@ public class CatalogueOrder {
                     System.out.println("2. Bouquets");
                     System.out.println("3. Floral Arrangements");
                     System.out.print("Please choose the product type: ");
-                    type = scan.nextInt();
+                    type = scan.nextLine();
 
-                    if(type == 1)
+                    if(type.equals("1"))
                         FreshFlowers(items , products);
-                    else if(type == 2)
+                    else if(type.equals("2"))
                         Bouquet(items, products);
-                    else if(type == 3)
+                    else if(type.equals("3"))
                         Arrangements();
-                    else
+                    else if(!type.matches("^[1-3]$"))
                         System.out.println("Incorrect input, please enter input as listed.");
-                }while(type > 3 || type < 1);
+                }while(!type.matches("^[1-3]$"));
 
-            System.out.print("Would you like to add something else(Y/N)?");
-            ans = scan.next().toUpperCase().charAt(0);
-        }while(ans == 'Y');
+            do{
+                System.out.print("Would you like to add something else(Y/N)?");
+                ans = scan.nextLine();
+                if(!ans.matches("^[YyNn]$"))
+                    System.out.println("Incorrect input, please enter input as listed.");
+            }while(!ans.matches("^[YyNn]$"));    
+        }while(ans.matches("^[Yy]$"));
         
         //Display order
         double orderTtlPrice = 0;
@@ -118,13 +115,15 @@ public class CatalogueOrder {
             System.out.println("");
             
                 
-            char ans = 'Y';
+            String ans;
             double flowerTtlPrice = 0;
             //Choose what flower and how much
             do{
-                int k = 1;
-                int n;
+                String n;
+                int k;
                 do{
+                    k = 1;
+                    
                     System.out.println("Name  Price  Quantity");
                     for(int i = 0; i < products.size(); i++)
                     {
@@ -140,41 +139,41 @@ public class CatalogueOrder {
                         }
                     }
                     System.out.print("Please choose the digit of flower that you wish to buy:");
-                    n = scan.nextInt();
-                    if(n > products.size() && n < 0 )
+                    n = scan.nextLine();
+                    if(!n.matches("^[1-"+ (k - 1) +"]$") )
                         System.out.println("Incorrect input, please enter input as listed.");
-                    else if(products.get(n - 1).getQuantity() == 0)
+                    else if(products.get(Integer.parseInt(n)  - 1).getQuantity() == 0)
                         System.out.println("Please choose a flower that is not sold out.");
-                }while(n > products.size() && n < 0 && products.get(n - 1).getQuantity() == 0);
+                    
+                }while(!n.matches("^[1-"+ (k - 1) +"]$") || products.get(Integer.parseInt(n)  - 1).getQuantity() == 0);
                 
-                int qty;
+                String qty;
                 do{
                     System.out.print("Please number of flower you wish to buy:");
-                    qty = scan.nextInt();
-                    if(qty > products.get(n - 1).getQuantity() || qty <= 0)
-                        System.out.println("Please enter a valid quantity.");
-//                    else if(!scan.hasNextInt())
-//                        System.out.println("Incorrect input, please enter input as listed.");
+                    qty = scan.nextLine();
                     
-                }while(qty > products.get(n - 1).getQuantity());
+                    if(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) - 1).getQuantity() +"]$"))
+                        System.out.println("Please enter a valid quantity.");
+                    
+                }while(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) - 1).getQuantity() +"]$"));
                 
                 
-                flowerTtlPrice = flower.calculateBill(products.get(n - 1).getPrice(), qty);
-                products.get(n - 1).setQuantity(products.get(n - 1).getQuantity()- qty);
+                flowerTtlPrice = flower.calculateBill(products.get(Integer.parseInt(n) - 1).getPrice(), Integer.parseInt(qty));
+                products.get(Integer.parseInt(n) - 1).setQuantity(products.get(Integer.parseInt(n) - 1).getQuantity()- Integer.parseInt(qty));
                 
                 //Add ordered item
-                Item item = new Item(products.get(n - 1).getProductID(),products.get(n - 1).getName(),'F',flowerTtlPrice,qty);
+                Item item = new Item(products.get(Integer.parseInt(n) - 1).getProductID(),products.get(Integer.parseInt(n) - 1).getName(),'F',flowerTtlPrice,Integer.parseInt(qty));
                 items.add(item);
                 
                 //checking
                 do{
                     System.out.print("Do you want to buy another flower(Y/N):");
-                    ans = scan.next().toUpperCase().charAt(0);
-                    if(ans != 'Y' && ans != 'N'){
+                    ans = scan.nextLine();
+                    if(!ans.matches("^[YyNn]$")){
                         System.out.println("Incorrect input, please enter input as listed.");
                     }
-                }while(ans != 'Y' && ans != 'N');
-            }while(ans == 'Y');
+                }while(!ans.matches("^[YyNn]$"));
+            }while(ans.matches("^[Yy]$"));
         return items;
     }
     
@@ -187,15 +186,17 @@ public class CatalogueOrder {
             System.out.println("");
             
             
-            char ans = 'Y';
+            String ans;
             double bouquetTtlPrice = 0;
             //Choose what flower and how much
             do{
-                int k = 1;
-                int n;
-                
-                System.out.println("  Name  Price  Quantity");
-                for(int i = 0; i < products.size(); i++)
+                String n;
+                int k;
+                do{
+                    k = 1;
+                    
+                    System.out.println("Name  Price  Quantity");
+                    for(int i = 0; i < products.size(); i++)
                     {
                         if(products.get(i).getType() == 'B'){
                             if(products.get(i).getQuantity() == 0){
@@ -206,57 +207,51 @@ public class CatalogueOrder {
                                 System.out.println(k + "." + products.get(i).getName() + " " + products.get(i).getPrice() + " " + products.get(i).getQuantity());
                                 k++;
                             }
-                        }  
-                        
+                        }
                     }
-                
-                do{
                     System.out.print("Please choose the digit of bouquet that you wish to buy:");
-                    n = scan.nextInt();
-                    if(n + 3 > products.size() && n + 3 < 0 )
+                    n = scan.nextLine();
+                    if(!n.matches("^[1-"+ (k - 1) +"]$") )
                         System.out.println("Incorrect input, please enter input as listed.");
-                    else if(products.get(n + 2).getQuantity() == 0)
+                    else if(products.get(Integer.parseInt(n) + 2).getQuantity() == 0)
                         System.out.println("Please choose a bouquet that is not sold out.");
                     
-                }while(n > products.size() && n < 0 && products.get(n + 2).getQuantity() == 0);
+                }while(!n.matches("^[1-"+ (k - 1) +"]$") || products.get(Integer.parseInt(n) + 2).getQuantity() == 0);
                 
-                int qty;
+                String qty;
                 do{
                     System.out.print("Please number of bouquet you wish to buy:");
-                    qty = scan.nextInt();
-                    if(qty > products.get(n + 2).getQuantity() || qty <= 0)
-                        System.out.println("Please enter a valid quantity.");
-//                    else if(!scan.hasNextInt())
-//                        System.out.println("Incorrect input, please enter input as listed.");
+                    qty = scan.nextLine();
                     
-                }while(qty > products.get(n + 2).getQuantity());
+                    if(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) +2).getQuantity() +"]$"))
+                        System.out.println("Please enter a valid quantity.");
+                    
+                }while(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) +2).getQuantity() +"]$"));
                 
                 
-                bouquetTtlPrice = bouquet.calculateBill(products.get(n + 2).getPrice(), qty);
-                products.get(n + 2).setQuantity(products.get(n + 2).getQuantity()- qty);
-
+                bouquetTtlPrice = bouquet.calculateBill(products.get(Integer.parseInt(n) +2).getPrice(), Integer.parseInt(qty));
+                products.get(Integer.parseInt(n) +2).setQuantity(products.get(Integer.parseInt(n) +2).getQuantity()- Integer.parseInt(qty));
+                
                 //Add ordered item
-                Item item = new Item(products.get(n + 2).getProductID(),products.get(n + 2).getName(),'B',bouquetTtlPrice,qty);
+                Item item = new Item(products.get(Integer.parseInt(n) +2).getProductID(),products.get(Integer.parseInt(n) +2).getName(),'B',bouquetTtlPrice,Integer.parseInt(qty));
                 items.add(item);
                 
                 //checking
                 do{
                     System.out.print("Do you want to buy another bouquet(Y/N):");
-                    ans = scan.next().toUpperCase().charAt(0);
-                    if(ans != 'Y' && ans != 'N'){
+                    ans = scan.nextLine();
+                    if(!ans.matches("^[YyNn]$")){
                         System.out.println("Incorrect input, please enter input as listed.");
                     }
-                }while(ans != 'Y' && ans != 'N');
-            }while(ans == 'Y');
-            
+                }while(!ans.matches("^[YyNn]$"));
+            }while(ans.matches("^[Yy]$"));
         return items;
     }
     
     public static void Arrangements(){
         /*Problems
             Cannot accept correct index for list
-            cannot check for null input
-            cannot check for type input*/
+            sales order cannot mix same item*/
         
     }
 }
