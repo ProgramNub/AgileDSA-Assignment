@@ -5,254 +5,247 @@
  */
 package dsa;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import Entities.Consumer;
+import Entities.Corporate;
+import Entities.ItemEnjiun;
+import Entities.LinkedList;
+import Interfaces.ListInterface;
 import java.util.Scanner;
-import dsa.Product;
+import Entities.ProductEnjiun;
+import Entities.Order;
+import static dsa.SalesOrder.findDuplicates;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
- * @author User
+ * @author Enjiun Tan
  */
 public class CatalogueOrder {
-    
-    public static void main(String[] args) {
-        
-        Scanner scan = new Scanner(System.in);
-        
-        //Check whether is individual or corporate customer
 
+    public static void main(String[] args) throws ParseException {
+
+        Scanner scan = new Scanner(System.in);
+
+        //Create Lists
+        ListInterface<ItemEnjiun> items = new LinkedList<>();
+        ListInterface<ProductEnjiun> products = new LinkedList<>();
+        ListInterface<Order> orders = new LinkedList<>();
+        ListInterface<Consumer> Consumer = new LinkedList<>();
+        ListInterface<Corporate> Corporate = new LinkedList<>();
+        ListInterface<ItemEnjiun> realItems = new LinkedList<>();
+
+        //Add dummies into lists
+        products.add(new ProductEnjiun("F001", "Rose", 'F', 6.00, 0));
+        products.add(new ProductEnjiun("F002", "Sunflower", 'F', 7.00, 50));
+        products.add(new ProductEnjiun("F003", "Lavender", 'F', 8.00, 50));
+
+        products.add(new ProductEnjiun("B001", "Oval shaped", 'B', 6.00, 0));
+        products.add(new ProductEnjiun("B002", "Cresent shaped", 'B', 7.00, 50));
+        products.add(new ProductEnjiun("B003", "Square shaped", 'B', 8.00, 50));
+
+        Consumer.add(new Consumer("I001","Eden Hazard", "Block 20-2, Cardinal Apartment, Oklahama", "012-1286421", 'I'));
+        Consumer.add(new Consumer("I002","Alvaro Morata", "Block 90-1-4, Taman Apartment, Rawang, Selangor", "011-2134143", 'I'));
+        Consumer.add(new Consumer("I003","Alan", "No.32, Taman Alma, Butterworth, Penang", "019-2483263", 'I'));
+        Consumer.add(new Consumer("I004","Martin", "No.44, Taman Sri Rampai, Wangsa Maju, Kuala Lumpur", "018-2785832", 'I'));
+
+        Corporate.add(new Corporate("C001","Super Flower Sdn.Bhd.", "129 Jalan Alam Shah, Wangsa Maju, Kuala Lumpur", "08-8421412", 990.00, 'C'));
+        Corporate.add(new Corporate("C002","Goh Marriage Sdn.Bhd.", "13 Jalan Perindustrian 16, Bayan Lepas, Pulau Pinang", "04-3435234", 1990.00, 'C'));
+        Corporate.add(new Corporate("C003","North Face Ltd.", "10 Jalan Sultan Ahmad Shah, Rawang, Selangor", "08-8214532", 1500.00, 'C'));
+        Corporate.add(new Corporate("C004","ChocoPoker Ltd. ", "91 Jalan Perindustrian Ipoh, Ipoh, Perak", "05-5242234", 1690.00, 'C'));
+
+        //Check whether is individual or corporate customer
         String cust;
-  
-        do{
-                
-                System.out.print("Individual or corporate customer? (I/C): ");
-                cust = scan.nextLine();
-                if(!cust.matches("^[IiCc]$"))
-                    System.out.println("Incorrect input, please enter input as listed.");
-        }while(!cust.matches("^[IiCc]$"));
+
+        do {
+
+            System.out.print("Individual or corporate customer? (I/C): ");
+            cust = scan.nextLine();
+            if (!cust.matches("^[IiCc]$")) {
+                System.out.println("Incorrect input, please enter input as listed.");
+            }
+        } while (!cust.matches("^[IiCc]$"));
 
         System.out.println("");
-        
-        //Create Lists
-        List<Item> items = new ArrayList<>();
-        List<Product> products = new ArrayList<>();
-     
-        
-        //Add flowers into product list
-        Product flower1 = new Product("F001","Rose",'F',6.00,0);
-        Product flower2 = new Product("F002","Sunflower",'F',7.00,50);
-        Product flower3 = new Product("F003","Lavender",'F',8.00,50);
-            products.add(flower1);
-            products.add(flower2);
-            products.add(flower3);
+        String cons;
+        if (cust.matches("^[Ii]$")) {
+            System.out.println("==============Customer List=============");
+            for (int i = 0; i < Consumer.size(); i++) {
+                System.out.println(String.format("%d. %-20s \t %-50s \t %-12s", i + 1,
+                        Consumer.get(i).getConsumerName(), Consumer.get(i).getCustAddress(),
+                        Consumer.get(i).getCustContact()));
+            }
+            //Choose customer for order
             
-        Product bouquet1 = new Product("B001","Oval shaped",'B',6.00,0);
-        Product bouquet2 = new Product("B002","Cresent shaped",'B',7.00,50);
-        Product bouquet3 = new Product("B003","Square shaped",'B',8.00,50);
-            products.add(bouquet1);
-            products.add(bouquet2);
-            products.add(bouquet3);
+            do {
+                System.out.print("Choose customer number: ");
+                cons = scan.nextLine();
+                if (!cons.matches("^[1-"+ (Consumer.size() + 1) +"]$")) {
+                    System.out.println("Incorrect input, please enter input as listed.");
+                }
+            } while (!cons.matches("^[1-"+ (Consumer.size() + 1) +"]$"));
+        } 
         
+        else {
+            System.out.println("=======Corporate List==========");
+            for (int i = 0; i < Corporate.size(); i++) {
+                System.out.println(String.format("%d. %-20s \t %-50s \t %-12s \t %-6.2f", i + 1,
+                        Corporate.get(i).getCorporateName(), Corporate.get(i).getCustAddress(),
+                        Corporate.get(i).getCustContact(), Corporate.get(i).getCreditLimit()));
+            }
+            do {
+                System.out.print("Choose corporate number: ");
+                cons = scan.nextLine();
+                if (!cons.matches("^[1-"+ (Corporate.size() + 1) +"]$")) {
+                    System.out.println("Incorrect input, please enter input as listed.");
+                }
+            } while (!cons.matches("^[1-"+ (Corporate.size() + 1) +"]$"));
+        }
+
         //Let user choose what they want to order
         String type;
         String ans;
-        do{
-                    do{
-                        
-                    System.out.println("1. Fresh Flowers");
-                    System.out.println("2. Bouquets");
-                    System.out.println("3. Floral Arrangements");
-                    System.out.print("Please choose the product type: ");
-                    type = scan.nextLine();
+        do {
+            do {
 
-                    if(type.equals("1"))
-                        FreshFlowers(items , products);
-                    else if(type.equals("2"))
-                        Bouquet(items, products);
-                    else if(type.equals("3"))
-                        Arrangements();
-                    else if(!type.matches("^[1-3]$"))
-                        System.out.println("Incorrect input, please enter input as listed.");
-                }while(!type.matches("^[1-3]$"));
+                System.out.println("1. Fresh Flowers");
+                System.out.println("2. Bouquets");
+                System.out.println("3. Floral Arrangements");
+                System.out.print("Please choose the product type: ");
+                type = scan.nextLine();
 
-            do{
+                if (type.equals("1")) {
+                    FlowerOrder.FreshFlowers(items, products);
+                } else if (type.equals("2")) {
+                    BouquetOrder.Bouquet(items, products);
+                } else if (type.equals("3")) {
+                    Arrangements();
+                } else if (!type.matches("^[1-3]$")) {
+                    System.out.println("Incorrect input, please enter input as listed.");
+                }
+            } while (!type.matches("^[1-3]$"));
+
+            do {
                 System.out.print("Would you like to add something else(Y/N)?");
                 ans = scan.nextLine();
-                if(!ans.matches("^[YyNn]$"))
+                if (!ans.matches("^[YyNn]$")) {
                     System.out.println("Incorrect input, please enter input as listed.");
-            }while(!ans.matches("^[YyNn]$"));    
-        }while(ans.matches("^[Yy]$"));
-        
-        //Display order
-        double orderTtlPrice = 0;
-        System.out.println("Name  Quantity Ordered Unit Price");
-        for(int i = 0; i < items.size(); i++){
-            System.out.println(items.get(i).getItemName() + " " + items.get(i).getQuantityBought() + " " + items.get(i).getUnitPrice());
-            orderTtlPrice += items.get(i).getUnitPrice();
-        }
-        System.out.println("Total price : RM" + orderTtlPrice);
-        
-        Date dNow = new Date( );
-        SimpleDateFormat ft = 
-        new SimpleDateFormat ("E yyyy.MM.dd hh:mm:ss a ");
-        System.out.println("Date: " + ft.format(dNow));
+                }
+            } while (!ans.matches("^[YyNn]$"));
+        } while (ans.matches("^[Yy]$"));
 
+        //Display order
+        double orderFlwPrice = 0;
+        double orderBqtPrice = 0;
+
+        realItems.addAll(findDuplicates(items));
+        //realItems = items;
+
+        System.out.println("Name  Quantity Ordered Unit Price");
+        for (int i = 0; i < realItems.size(); i++) {
+            if (realItems.get(i).getType() == 'F') {
+                System.out.println(realItems.get(i).getItemName() + " " + realItems.get(i).getQuantityBought() + " " + realItems.get(i).getUnitPrice());
+                orderFlwPrice += realItems.get(i).getUnitPrice();
+            }
+        }
+        System.out.println("Flower total price: RM" + orderFlwPrice);
+
+        System.out.println("");
+
+        for (int i = 0; i < realItems.size(); i++) {
+            if (realItems.get(i).getType() == 'B') {
+                System.out.println(realItems.get(i).getItemName() + " " + realItems.get(i).getQuantityBought() + " " + realItems.get(i).getUnitPrice());
+                orderBqtPrice += realItems.get(i).getUnitPrice();
+            }
+        }
+
+        System.out.println("Bouquet total price: RM" + orderBqtPrice);
+        System.out.println("");
+        System.out.println("Total price : RM" + (orderFlwPrice + orderBqtPrice));
+
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a ");
+        System.out.println("Date: " + ft.format(dNow));
+        //Date orderDate =  ft.parse(dNow); 
+
+        String delPick;
+        do {
+            System.out.print("Would you like to have your order delivered or picked up(D/P)?");
+            delPick = scan.nextLine();
+            if (!delPick.matches("^[DdPp]$")) {
+                System.out.println("Incorrect input, please enter input as listed.");
+            }
+        } while (!delPick.matches("^[DdPp]$"));
+        System.out.println("");
+
+        String dateString;
+        Date receiveDate = new Date();
+        do{
+                System.out.print("Please enter date for receive (dd-mm-yy):");
+                dateString = scan.nextLine();
+                if (!dateString.matches("^\\d{2}-\\d{2}-\\d{2}$")){
+                    System.out.println("Incorrect input, please enter input as listed.");
+                }
+            }while(!dateString.matches("^\\d{2}-\\d{2}-\\d{2}$"));
+        try{
+            
+
+            DateFormat df = new SimpleDateFormat("dd-mm-yy", Locale.ENGLISH);
+            receiveDate =  df.parse(dateString); 
+        }catch(ParseException e){
+            
+        }
+        
+        String hour;
+        do{
+            System.out.print("Please enter time for receive (hh):");
+            hour = scan.nextLine();
+            if (!hour.matches("^[1-24]$")) {
+                System.out.println("Incorrect input, please enter input as listed.");
+            }
+        }while(!hour.matches("^[1-24]$"));
+        
+        String orderID = "";
+        String orderRef;
+        if(delPick.matches("^[Pp]$")){
+            if(cust.matches("^[Ii]$")){
+                int orderNum = 0;
+                orderNum++;
+                orderID += "PI" + orderNum;
+                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustID();
+            }else{
+                int orderNum = 0;
+                orderNum++;
+                orderID += "PC" + orderNum;
+                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustID();
+            }
+        }else{
+            if(cust.matches("^[Ii]$")){
+                int orderNum = 0;
+                orderNum++;
+                orderID += "DI" + orderNum;
+                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustAddress();
+            }else{
+                int orderNum = 0;
+                orderNum++;
+                orderID += "DC" + orderNum;
+                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustAddress();
+            }
+        } 
+        
+        orders.add(new Order(orderID ,items, (orderFlwPrice + orderBqtPrice), dNow , receiveDate, Integer.parseInt(hour), 'U', delPick.charAt(0), orderRef ));
+        System.out.print(orders.get(0));
         
     }
-    
-    
-    
-    private static List<Item> FreshFlowers(List items, List<Product> products){
-        
-        Scanner scan = new Scanner(System.in);
-        //Create flower object
-        Product flower = new Product();
-        
-            System.out.println("");
-            
-                
-            String ans;
-            double flowerTtlPrice = 0;
-            //Choose what flower and how much
-            do{
-                String n;
-                int k;
-                do{
-                    k = 1;
-                    
-                    System.out.println("Name  Price  Quantity");
-                    for(int i = 0; i < products.size(); i++)
-                    {
-                        if(products.get(i).getType() == 'F'){
-                            if(products.get(i).getQuantity() == 0){
-                                System.out.println(k + ".Sold out");
-                                k++;
-                            }
-                            else{
-                                System.out.println(k + "." + products.get(i).getName() + " " + products.get(i).getPrice() + " " + products.get(i).getQuantity());
-                                k++;
-                            }
-                        }
-                    }
-                    System.out.print("Please choose the digit of flower that you wish to buy:");
-                    n = scan.nextLine();
-                    if(!n.matches("^[1-"+ (k - 1) +"]$") )
-                        System.out.println("Incorrect input, please enter input as listed.");
-                    else if(products.get(Integer.parseInt(n)  - 1).getQuantity() == 0)
-                        System.out.println("Please choose a flower that is not sold out.");
-                    
-                }while(!n.matches("^[1-"+ (k - 1) +"]$") || products.get(Integer.parseInt(n)  - 1).getQuantity() == 0);
-                
-                String qty;
-                do{
-                    System.out.print("Please number of flower you wish to buy:");
-                    qty = scan.nextLine();
-                    
-                    if(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) - 1).getQuantity() +"]$"))
-                        System.out.println("Please enter a valid quantity.");
-                    
-                }while(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) - 1).getQuantity() +"]$"));
-                
-                
-                flowerTtlPrice = flower.calculateBill(products.get(Integer.parseInt(n) - 1).getPrice(), Integer.parseInt(qty));
-                products.get(Integer.parseInt(n) - 1).setQuantity(products.get(Integer.parseInt(n) - 1).getQuantity()- Integer.parseInt(qty));
-                
-                //Add ordered item
-                Item item = new Item(products.get(Integer.parseInt(n) - 1).getProductID(),products.get(Integer.parseInt(n) - 1).getName(),'F',flowerTtlPrice,Integer.parseInt(qty));
-                items.add(item);
-                
-                //checking
-                do{
-                    System.out.print("Do you want to buy another flower(Y/N):");
-                    ans = scan.nextLine();
-                    if(!ans.matches("^[YyNn]$")){
-                        System.out.println("Incorrect input, please enter input as listed.");
-                    }
-                }while(!ans.matches("^[YyNn]$"));
-            }while(ans.matches("^[Yy]$"));
-        return items;
-    }
-    
-    private static List<Item> Bouquet(List items, List<Product> products){
-        
-        Scanner scan = new Scanner(System.in);
-        
-        Product bouquet = new Product();
-        
-            System.out.println("");
-            
-            
-            String ans;
-            double bouquetTtlPrice = 0;
-            //Choose what flower and how much
-            do{
-                String n;
-                int k;
-                do{
-                    k = 1;
-                    
-                    System.out.println("Name  Price  Quantity");
-                    for(int i = 0; i < products.size(); i++)
-                    {
-                        if(products.get(i).getType() == 'B'){
-                            if(products.get(i).getQuantity() == 0){
-                                System.out.println(k + ".Sold out");
-                                k++;
-                            }
-                            else{
-                                System.out.println(k + "." + products.get(i).getName() + " " + products.get(i).getPrice() + " " + products.get(i).getQuantity());
-                                k++;
-                            }
-                        }
-                    }
-                    System.out.print("Please choose the digit of bouquet that you wish to buy:");
-                    n = scan.nextLine();
-                    if(!n.matches("^[1-"+ (k - 1) +"]$") )
-                        System.out.println("Incorrect input, please enter input as listed.");
-                    else if(products.get(Integer.parseInt(n) + 2).getQuantity() == 0)
-                        System.out.println("Please choose a bouquet that is not sold out.");
-                    
-                }while(!n.matches("^[1-"+ (k - 1) +"]$") || products.get(Integer.parseInt(n) + 2).getQuantity() == 0);
-                
-                String qty;
-                do{
-                    System.out.print("Please number of bouquet you wish to buy:");
-                    qty = scan.nextLine();
-                    
-                    if(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) +2).getQuantity() +"]$"))
-                        System.out.println("Please enter a valid quantity.");
-                    
-                }while(!qty.matches("^[1-"+ products.get(Integer.parseInt(n) +2).getQuantity() +"]$"));
-                
-                
-                bouquetTtlPrice = bouquet.calculateBill(products.get(Integer.parseInt(n) +2).getPrice(), Integer.parseInt(qty));
-                products.get(Integer.parseInt(n) +2).setQuantity(products.get(Integer.parseInt(n) +2).getQuantity()- Integer.parseInt(qty));
-                
-                //Add ordered item
-                Item item = new Item(products.get(Integer.parseInt(n) +2).getProductID(),products.get(Integer.parseInt(n) +2).getName(),'B',bouquetTtlPrice,Integer.parseInt(qty));
-                items.add(item);
-                
-                //checking
-                do{
-                    System.out.print("Do you want to buy another bouquet(Y/N):");
-                    ans = scan.nextLine();
-                    if(!ans.matches("^[YyNn]$")){
-                        System.out.println("Incorrect input, please enter input as listed.");
-                    }
-                }while(!ans.matches("^[YyNn]$"));
-            }while(ans.matches("^[Yy]$"));
-        return items;
-    }
-    
-    public static void Arrangements(){
+
+    public static void Arrangements() {
         /*Problems
             Cannot accept correct index for list
-            sales order cannot mix same item*/
-        
+            sales order cannot mix same item
+            date format not correct
+            hour receive checking something wrong*/
     }
 }
-

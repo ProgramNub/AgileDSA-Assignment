@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dsa;
+package Entities;
+
+
 
 /**
  *
  * @author User
  */
-public class Product implements OrderInterface{
+public class ProductEnjiun {
     
     private String productID;
     private String name;
@@ -17,10 +19,10 @@ public class Product implements OrderInterface{
     private double price;
     private int quantity;
 
-    public Product() {
+    public ProductEnjiun() {
     }
 
-    public Product(String productID, String name, char type, double price, int quantity) {
+    public ProductEnjiun(String productID, String name, char type, double price, int quantity) {
         this.productID = productID;
         this.name = name;
         this.type = type;
@@ -68,9 +70,7 @@ public class Product implements OrderInterface{
         this.quantity = quantity;
     }
 
-   
 
-    @Override
     public double calculateBill(double price, int qty){
         
         double bouquetUnitPrice = price * qty;

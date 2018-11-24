@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dsa;
+package Entities;
 
 /**
  *
  * @author User
  */
-public class Item {
+public class ItemEnjiun {
     private String itemID;
     private String itemName;
     private char type;
     private double unitPrice;
     private int quantityBought;
 
-    public Item() {
+    public ItemEnjiun() {
     }
 
-    public Item(String itemID, String itemName, char type, double unitPrice, int quantityBought) {
+    public ItemEnjiun(String itemID, String itemName, char type, double unitPrice, int quantityBought) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.type = type;
