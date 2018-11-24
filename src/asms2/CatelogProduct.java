@@ -54,11 +54,11 @@ public class CatelogProduct implements ProductInterface{
     }
      
     public void addProduct(){
-             System.out.println("Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+             System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
              System.out.println("====================================================================================================================");
              for(int i=0;i<product.size();i++)
                 {
-                 System.out.printf("%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
                 }
 
@@ -291,11 +291,11 @@ public class CatelogProduct implements ProductInterface{
                 {
 //               // System.out.printf("%-12s %-10s %-6s %-2d %f",product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductColour(),product.get(i).getProductQuantity());
 //               System.out.println(product.toString());
-                     System.out.println("Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                    System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
              System.out.println("====================================================================================================================");
              for(int i=0;i<product.size();i++)
                 {
-                 System.out.printf("%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
                 }
                 }
@@ -304,11 +304,11 @@ public class CatelogProduct implements ProductInterface{
             public void showProductList(){
                 int count = 0 ;
                 
-               System.out.println("Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+               System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
              System.out.println("====================================================================================================================");
              for(int i=0;i<product.size();i++)
                 {
-                 System.out.printf("%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
                 }
                     while(a!=true){ 
