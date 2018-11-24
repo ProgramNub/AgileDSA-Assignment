@@ -33,34 +33,34 @@ public class AddProduct {
 
         Scanner s = new Scanner(System.in);
         
-        int option;
+        int ans=0;
         int count = 0;
         do{
             if(count>=1){
                 System.out.println("Wrong number entered!");
             }
-            System.out.println("Menu: ");
+            System.out.println("Flower Menu: ");
             System.out.println("1.View Product");
             System.out.println("2.Add Product");
             System.out.println("3.Update Product Quantuty");
             System.out.println("4.Delete Product");
             System.out.println("5.Exit");
-            System.out.print("Please Enter your choice : ");
-            option = s.nextInt();
-            if(option == 1){
+            System.out.print("Please Enter your option : ");
+            ans = s.nextInt();
+            if(ans == 1){
                 showProductList();
                 a = true;
-            }else if(option == 2){
+            }else if(ans == 2){
                 addProduct();
                 a = true;
-            }else if(option == 3){
+            }else if(ans == 3){
                 updateProduct();
                 a = true;
             }
-            else if(option == 4){
+            else if(ans == 4){
                 DeleteProduct();
             }
-            else if(option == 5){
+            else if(ans == 5){
                 System.exit(0);
             }
             count++;
@@ -76,17 +76,23 @@ public class AddProduct {
                 }
 
         int count = 0;
-        int choice = 0;
+        int ans = 0;
         String type;
+       
+        
+        
+       
         Product p= new Product();
         
         Scanner sc = new Scanner(System.in);
+        
         System.out.print("Product ID:");
         p.setProductID(product.size()+1);
         
         System.out.println(p.getProductID());
         
-       do{
+        
+                do{
                         
                     System.out.println("1. Fresh Flowers");
                     System.out.println("2. Bouquets");
@@ -108,7 +114,7 @@ public class AddProduct {
         while(!sc.hasNext("[A-Za-z]+")){
         sc.next();
         System.out.println("Product Name should not be blank or invalid input!!.Please re-enter");
-        System.out.print("Please enter Product Colour: ");
+        System.out.print("Please enter Product Name: ");
         }
         p.setProductName(sc.nextLine());
         
@@ -140,21 +146,28 @@ public class AddProduct {
         p.setProductprice(sc.nextDouble());
         
         product.add(p);
+        
         System.out.println("New Product Added in to List");
         showList();
-        
-                    System.out.println("1.Return to Main Menu");
-                    System.out.println("2.Exit");
-                    System.out.print("Please choose an option e.g. 2 to exit: ");
+            
+                    
+                    System.out.println("Please Select Your Option");
+                    System.out.println("1.Add more Product");
+                    System.out.println("2.Return to Main Menu");
+                    System.out.println("3.Exit");
+                    System.out.print("Enter Option: ");
                     while(a!=true){
                     if(count>=1){
-                           System.out.println("Wrong number entered!"); 
+                           System.out.println("Incorrect Input,Only enter 1 ,2 and 3 only"); 
                      }
-                    choice = sc.nextInt(); 
-                    if(choice==1){
+                    ans = sc.nextInt(); 
+                    if(ans ==1){
+                      addProduct();
+                      a=true;
+                    }else if(ans==2){
                         menu();
                         a = true;
-                    }else if(choice==2){
+                    }else if(ans==3){
                         System.exit(0);
                     }
                     count++;
@@ -163,65 +176,76 @@ public class AddProduct {
 
       
       public static void updateProduct(){
-       int choice =0;
+       int ans =0;
        int count =0;
        showList();
        Scanner b = new Scanner(System.in);
-       System.out.print("Select Product By ID number: ");  
-       choice = b.nextInt();
-       boolean checking = false;
-       for(int i = 0; i <product.size();i++)
-           if(product.get(i).getProductID() == choice){
-               System.out.print("Enter Product Queantity: ");
-               Scanner stock = new Scanner(System.in);
-                while(!stock.hasNextInt()){
-                    stock.next();
-                    System.out.println("Product quantity should not be blank and must number!!.Please retry");
-                    System.out.print("Please enter product Quantity: ");
-                }
-               int newQuantity = stock.nextInt();
-               product.get(i).setProductQuantity(newQuantity);
-               System.out.println("Stock have been updated!\n");
-               checking = true;
-               
-               while(a=true){
-                if(count>=1){
-                        System.out.println("Wrong number entered!");
-                    }
-                    System.out.println("1.Return to Main Menu");
-                    System.out.println("2.Exit");
-                    System.out.print("Please choose an option e.g. 2 to exit: ");
-                    Scanner s = new Scanner(System.in);
-                    choice = s.nextInt(); 
-                    if(choice==1){
-                        menu();
-                        a = true;
-                    }else if(choice==2){
-                        System.exit(0);
-                     }
-                      count++;
-                }
+       
+            System.out.print("Select Product By ID number: ");  
+            ans = b.nextInt();
+            boolean checking = false;
+            for(int i = 0; i <product.size();i++)
+                 if(product.get(i).getProductID() == ans){
+                    System.out.print("Enter Product Queantity: ");
+                     Scanner stock = new Scanner(System.in);
+                     while(!stock.hasNextInt()){
+                         stock.next();
+                         System.out.println("Product quantity should not be blank and must number!!.Please retry");
+                            System.out.print("Please enter product Quantity: ");
+                      }
+                    int newQuantity = stock.nextInt();
+                    product.get(i).setProductQuantity(newQuantity);
+                    System.out.println("Stock have been updated!\n");
+                     checking = true;
+                    
+                     while(a=true){
+                     if(count>=1){
+                               System.out.println("Incorrect Input,Only enter 1 or 2 only"); 
+                            }
+                            System.out.println("Please Select Your Option ");
+                            System.out.println("1.Update More Product ");
+                            System.out.println("2.Return to Main Menu");
+                            System.out.println("3.Exit");
+                            System.out.print("Your option: ");
+                            Scanner s = new Scanner(System.in);
+                            ans = s.nextInt(); 
+                            if(ans ==1){
+                                updateProduct();
+                                a = true;
+                            }else if(ans==2){
+                                menu();
+                                a = true;
+                            }else if(ans==3){
+                                System.exit(0);
+                             }
+                              count++;
+                        }
 
-              
+                 
                 
-            }else if(choice ==0){
+            }else if(ans ==0){
                 menu();
             }
     
             if(checking!= true){
               do{
-                 System.out.println("Invalid item\n");
-                  System.out.println("1.Return to Main Menu");
-                   System.out.println("2.Exit");
-                 System.out.print("Please choose an option e.g. 2 to exit" );
-                 Scanner s = new Scanner(System.in);
-                  choice = s.nextInt(); 
-                 if(choice==1){
-                     menu();
-                     a = true;
-                 }else if(choice==2){
-                     System.exit(0);
-                 }
+                 System.out.println("Invalid Product\n");
+                   System.out.println("Please Select Your Option ");
+                   System.out.println("1.Update More Product ");
+                   System.out.println("2.Return to Main Menu");
+                   System.out.println("3.Exit");
+                   System.out.print("Your option: ");
+                   Scanner s = new Scanner(System.in);
+                   ans = s.nextInt(); 
+                        if(ans ==1){
+                            updateProduct();
+                            a = true;
+                       }else if(ans==2){
+                              menu();
+                             a = true;
+                       }else if(ans==3){
+                          System.exit(0);
+                       }
              }while(a != true);
       
              }
@@ -256,11 +280,12 @@ public class AddProduct {
                          }
                     while(a!=true){ 
                         if(count>=1){
-                        System.out.println("Wrong number entered!");
+                        System.out.println("Incorrect Input,Only enter 1 or 2 only"); 
                     }
-                 System.out.println("1.Return to Main Menu");
-                 System.out.println("2.Exit");
-                 System.out.println("Please choose an option e.g. 2 to exit: ");
+                    System.out.println("Please Select Your Option");
+                    System.out.println("1.Return to Main Menu");
+                    System.out.println("2.Exit");
+                    System.out.print("Enter Option: ");
                  Scanner s = new Scanner(System.in);
                  int c = s.nextInt(); 
         
@@ -278,30 +303,35 @@ public class AddProduct {
             }
             
             public static void DeleteProduct(){
-             int choice =0;
+             int ans =0;
              int count =0;
              showList();Scanner b = new Scanner(System.in);
             System.out.print("Select Product By ID number: ");
-            choice = b.nextInt();
+            ans = b.nextInt();
             boolean checking = false;
             for(int i = 0; i <product.size();i++)
-                 if(product.get(i).getProductID() == choice){
+                 if(product.get(i).getProductID() == ans){
                      product.remove(i);
                     System.out.println("Product have been Deleted!\n");
                      checking = true;
                      while(a=true){
                      if(count>=1){
-                             System.out.println("Wrong number entered!");
+                            System.out.println("Incorrect Input,Only enter 1 or 2 only"); 
                          }
-                          System.out.println("1.Return to Main Menu");
-                         System.out.println("2.Exit");
-                         System.out.print("Please choose an option e.g. 2 to exit: ");
+                    System.out.println("Please Select Your Option");
+                    System.out.println("1.Delete Other Product");
+                    System.out.println("2.Return to Main Menu");
+                    System.out.println("3.Exit");
+                    System.out.print("Enter Option: ");
                          Scanner s = new Scanner(System.in);
-                         choice = s.nextInt(); 
-                         if(choice==1){
+                         ans = s.nextInt(); 
+                         if(ans ==1){
+                             DeleteProduct();
+                             a = true;
+                         }else if(ans==2){
                                menu();
                               a = true;
-                         }else if(choice==2){
+                         }else if(ans==3){
                                 System.exit(0);
                           }
                               count++;
@@ -309,24 +339,29 @@ public class AddProduct {
 
               
                 
-                    }else if(choice ==0){
+                    }else if(ans ==0){
                        menu();
                   }
     
                     if(checking!= true){
                       do{
-                         System.out.println("Invalid item\n");
-                          System.out.println("1.Return to Main Menu");
-                          System.out.println("2.Exit");
-                         System.out.println("Please choose an option e.g. 2 to exit: ");
-                         Scanner s = new Scanner(System.in);
-                          choice = s.nextInt(); 
-                         if(choice==1){
-                             menu();
-                             a = true;
-                         }else if(choice==2){
-                             System.exit(0);
-                         }
+                       System.out.println("Invalid Product\n");
+                        System.out.println("Please Select Your Option");
+                        System.out.println("1.Delete Other Product");
+                        System.out.println("2.Return to Main Menu");
+                        System.out.println("3.Exit");
+                        System.out.print("Enter Option: ");
+                             Scanner s = new Scanner(System.in);
+                             ans = s.nextInt(); 
+                             if(ans ==1){
+                                 DeleteProduct();
+                                 a = true;
+                               }else if(ans==2){
+                                 menu();
+                                 a = true;
+                             }else if(ans==3){
+                                System.exit(0);
+                          }
                      }while(a != true);
 
                      }
