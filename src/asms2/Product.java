@@ -10,6 +10,7 @@ package asms2;
  * @author lebor
  */
 public class Product {
+    public int productID;
      public String productCat;
      public String productName;
      public String productColour;
@@ -18,13 +19,23 @@ public class Product {
       
       Product(){};
 
-    public Product(String productCat, String productName, String productColour, int productQuantity, double productprice) {
+    public Product(int productID,String productCat, String productName, String productColour, int productQuantity, double productprice) {
+        this.productID = productID;
         this.productCat = productCat;
         this.productName = productName;
         this.productColour = productColour;
         this.productQuantity = productQuantity;
         this.productprice = productprice;
     }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+    
 
     public String getProductCat() {
         return productCat;
@@ -68,7 +79,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return   productCat + "\t" + productName + "\t" + productColour + "\t" + productQuantity + "\t" + productprice +"\n";
+        return productID +"\t" +   productCat + "\t" + productName + "\t" + productColour + "\t" + productQuantity + "\t" + productprice +"\n";
     
     }
 
