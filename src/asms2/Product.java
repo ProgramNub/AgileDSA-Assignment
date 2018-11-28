@@ -10,21 +10,32 @@ package asms2;
  * @author lebor
  */
 public class Product {
+    public int productID;
      public String productCat;
      public String productName;
-     public String productColour;
      public int productQuantity ;
      public double productprice ;
+     public String productDescription; 
       
       Product(){};
 
-    public Product(String productCat, String productName, String productColour, int productQuantity, double productprice) {
+    public Product(int productID,String productCat, String productName, int productQuantity, double productpric,String productDescription) {
+        this.productID = productID;
         this.productCat = productCat;
         this.productName = productName;
-        this.productColour = productColour;
         this.productQuantity = productQuantity;
         this.productprice = productprice;
+        this.productDescription = productDescription;
     }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+    
 
     public String getProductCat() {
         return productCat;
@@ -42,13 +53,14 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getProductColour() {
-        return productColour;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setProductColour(String productColour) {
-        this.productColour = productColour;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
+
 
     public int getProductQuantity() {
         return productQuantity;
@@ -68,7 +80,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return   productCat + "\t" + productName + "\t" + productColour + "\t" + productQuantity + "\t" + productprice +"\n";
+        return productID +"\t" +   productCat + "\t" + productName +"\t" + productQuantity + "\t" + productprice +"\t"+productDescription +"\n";
     
     }
 
