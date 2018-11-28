@@ -34,7 +34,7 @@ public class CatelogProduct implements ProductInterface{
             System.out.print("Please Enter your option : ");
             ans = s.nextInt();
             if(ans == 1){
-                showProductList();
+                showProductCategory();
                 a = true;
             }else if(ans == 2){
                 addProduct();
@@ -45,6 +45,7 @@ public class CatelogProduct implements ProductInterface{
             }
             else if(ans == 4){
                 DeleteProduct();
+                a=true;
             }
             else if(ans == 5){
                 System.exit(0);
@@ -58,16 +59,13 @@ public class CatelogProduct implements ProductInterface{
              System.out.println("====================================================================================================================");
              for(int i=0;i<product.size();i++)
                 {
-                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                 System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
                 }
 
         int count = 0;
         int ans = 0;
         String type;
-       
-        
-        
        
         Product p= new Product();
         
@@ -127,33 +125,34 @@ public class CatelogProduct implements ProductInterface{
         while(!sc.hasNext("[A-Za-z]+")){
         sc.next();
         System.out.println("Product Description should not be blank or invalid input!!.Please re-enter");
-        System.out.print("Please enter Product Colour: ");
+        System.out.print("Please enter Product Description: ");
         }
-        p.setProductDescription(sc.nextLine());
+        p.setProductDescription(sc.next());
         
         product.add(p);
         
         System.out.println("New Product Added in to List");
         showList();
             
-                    
+           int ans1=0;           
                     System.out.println("Please Select Your Option");
                     System.out.println("1.Add more Product");
                     System.out.println("2.Return to Main Menu");
                     System.out.println("3.Exit");
                     System.out.print("Enter Option: ");
+                    ans1 = sc.nextInt();
                     while(a!=true){
                     if(count>=1){
-                           System.out.println("Incorrect Input,Only enter 1 ,2 and 3 only"); 
+                     System.out.println("Incorrect Input,Only enter 1 ,2 and 3 only"); 
                      }
-                    ans = sc.nextInt(); 
-                    if(ans ==1){
+                    
+                     if(ans1 ==1){
                       addProduct();
                       a=true;
-                    }else if(ans==2){
+                    }else if(ans1 ==2){
                         menu();
                         a = true;
-                    }else if(ans==3){
+                    }else if(ans1 ==3){
                         System.exit(0);
                     }
                     count++;
@@ -236,8 +235,64 @@ public class CatelogProduct implements ProductInterface{
       public void updateQuantity(){
        int ans =0;
        int count =0;
-       showList();
+       
        Scanner b = new Scanner(System.in);
+        String type;
+                do{
+                    
+                    System.out.println("==========Delete Product ========");
+                    System.out.println("Please Select Product Category");
+                    System.out.println("1. Fresh Flowers");
+                    System.out.println("2. Bouquets");
+                    System.out.println("3. Floral Arrangements");
+                    System.out.println("4. Back To Menu");
+                    System.out.print("Please choose the product type: ");
+                    type = b.nextLine();
+
+                    if(type.equals("1"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Fresh Flowers")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                     }
+                    }
+                    else if(type.equals("2"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Bouquets")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                     }  
+                        
+                    }
+                    else if(type.equals("3"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Floral Arrangements")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                      } 
+                    }  
+                    else if(type.equals("3"))
+                    {
+                        menu();
+                    }  
+                    
+                    else if(!type.matches("^[1-4]$"))
+                        System.out.println("Incorrect input, please enter input as listed.");
+                    
+                    
+                    }while(!type.matches("^[1-4]$"));
        
             System.out.print("Select Product By ID number: ");  
             ans = b.nextInt();
@@ -283,6 +338,8 @@ public class CatelogProduct implements ProductInterface{
                  }
             }
       
+            
+      
       
             public void showList(){
       
@@ -295,41 +352,96 @@ public class CatelogProduct implements ProductInterface{
              System.out.println("====================================================================================================================");
              for(int i=0;i<product.size();i++)
                 {
-                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                 System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
                 }
                 }
             }
           
-            public void showProductList(){
+            public void showProductCategory(){
                 int count = 0 ;
-                
-               System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
-             System.out.println("====================================================================================================================");
-             for(int i=0;i<product.size();i++)
-                {
-                 System.out.printf("%-2d\t\t%-12s\t\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+                String type;
+                int ans;
+                Scanner sc = new Scanner(System.in);
+                 
+                 do{
+                    
+                    System.out.println("==========View Product========");
+                    System.out.println("Please Select Product Category");
+                    System.out.println("1. Fresh Flowers");
+                    System.out.println("2. Bouquets");
+                    System.out.println("3. Floral Arrangements");
+                    System.out.println("4. Back To Menu");
+                    System.out.print("Please choose the product type: ");
+                    type = sc.nextLine();
+
+                    if(type.equals("1"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Fresh Flowers")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
           
-                }
-                    while(a!=true){ 
-                        if(count>=1){
-                        System.out.println("Incorrect Input,Only enter 1 or 2 only"); 
+                                     }
                     }
-                    System.out.println("Please Select Your Option");
-                    System.out.println("1.Return to Main Menu");
-                    System.out.println("2.Exit");
-                    System.out.print("Enter Option: ");
-                 Scanner s = new Scanner(System.in);
-                 int c = s.nextInt(); 
-        
-                    if(c==1){
-                        a = true;
+                    else if(type.equals("2"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Bouquets")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                     }  
+                        
+                    }
+                    else if(type.equals("3"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Floral Arrangements")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                      } 
+                    }  
+                    else if(type.equals("3"))
+                    {
                         menu();
-                     }else if(c==2){
-                       System.exit(0);
-                     }
-                         count++;
-                     }
+                    }  
+                    
+                    else if(!type.matches("^[1-4]$"))
+                        System.out.println("Incorrect input, please enter input as listed.");
+                    
+                    
+                    }while(!type.matches("^[1-4]$"));
+              
+                    while(a=true){
+                     if(count>=1){
+                            System.out.println("Incorrect Input,Only enter 1 or 2 only"); 
+                         }
+                    System.out.println("Please Select Your Option");
+                    System.out.println("1.View Othere Product Category");
+                    System.out.println("2.Return to Main Menu");
+                    System.out.println("3.Exit");
+                    System.out.print("Enter Option: ");
+                         Scanner s = new Scanner(System.in);
+                         ans = s.nextInt(); 
+                         if(ans ==1){
+                             showProductCategory();
+                             a = true;
+                         }else if(ans==2){
+                               menu();
+                              a = true;
+                         }else if(ans==3){
+                                System.exit(0);
+                          }
+                              count++;
+                     } 
                 
              
               
@@ -338,15 +450,73 @@ public class CatelogProduct implements ProductInterface{
             public void DeleteProduct(){
              int ans =0;
              int count =0;
-             showList();Scanner b = new Scanner(System.in);
-            System.out.print("Select Product By ID number: ");
-            ans = b.nextInt();
-            boolean checking = false;
-            for(int i = 0; i <product.size();i++)
-                 if(product.get(i).getProductID() == ans){
-                     product.remove(i);
-                    System.out.println("Product have been Deleted!\n");
-                     checking = true;
+             
+             Scanner b = new Scanner(System.in);
+             String type;
+                do{
+                    
+                    System.out.println("==========Delete Product ========");
+                    System.out.println("Please Select Product Category");
+                    System.out.println("1. Fresh Flowers");
+                    System.out.println("2. Bouquets");
+                    System.out.println("3. Floral Arrangements");
+                    System.out.println("4. Back To Menu");
+                    System.out.print("Please choose the product type: ");
+                    type = b.nextLine();
+
+                    if(type.equals("1"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Fresh Flowers")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                     }
+                    }
+                    else if(type.equals("2"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Bouquets")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                     }  
+                        
+                    }
+                    else if(type.equals("3"))
+                    {
+                         System.out.println("Product ID\t"+"Product Category\t"+"Product Name\t"+"Product Quantity\t"+"Product Price\t"+"Product Description\t");
+                         System.out.println("====================================================================================================================");
+                             for(int i=0;i<product.size();i++)
+                                if(product.get(i).productCat == "Floral Arrangements")
+                                     {
+                                         System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n",product.get(i).productID,product.get(i).getProductCat(),product.get(i).getProductName(),product.get(i).getProductQuantity(),product.get(i).productprice,product.get(i).productDescription);
+          
+                                      } 
+                    }  
+                    else if(type.equals("3"))
+                    {
+                        menu();
+                    }  
+                    
+                    else if(!type.matches("^[1-4]$"))
+                        System.out.println("Incorrect input, please enter input as listed.");
+                    
+                    
+                    }while(!type.matches("^[1-4]$"));
+                
+                    System.out.print("Select Product By ID number: ");
+                    ans = b.nextInt();
+                    for(int i = 0; i <product.size();i++)
+                    if(product.get(i).getProductID() == ans){
+                     product.remove(i);   
+                   System.out.println("Product have been Deleted!\n");
+                    
+                    
                      while(a=true){
                      if(count>=1){
                             System.out.println("Incorrect Input,Only enter 1 or 2 only"); 

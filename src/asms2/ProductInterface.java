@@ -19,6 +19,6 @@ public interface ProductInterface {
     public void DeleteProduct();
     
     public void showList();
-    public void showProductList();
+    public void showProductCategory();
     
 }

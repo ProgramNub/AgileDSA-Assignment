@@ -19,7 +19,7 @@ public class Product {
       
       Product(){};
 
-    public Product(int productID,String productCat, String productName, int productQuantity, double productpric,String productDescription) {
+    public Product(int productID,String productCat, String productName, int productQuantity, double productprice,String productDescription) {
         this.productID = productID;
         this.productCat = productCat;
         this.productName = productName;
