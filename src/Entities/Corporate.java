@@ -7,9 +7,10 @@ package Entities;
 
 /**
  *
- * @author asus
+ * @author Desmond Chooi
  */
 public class Corporate extends Customer{
+    
     
     private String corporateName;
     private double creditLimit;
@@ -18,12 +19,14 @@ public class Corporate extends Customer{
        
     }
 
-    public Corporate(String custID, String corporateName, String custAddress, String custContact, double creditLimit, char custType) {
+    public Corporate(String custID, String corporateName, char custType, String custAddress, String custContact, double creditLimit) {
         super(custID, custAddress, custContact, custType);
         this.corporateName = corporateName;
         this.creditLimit = creditLimit;
     }
 
+    
+    
     public String getCorporateName() {
         return corporateName;
     }
@@ -44,6 +47,10 @@ public class Corporate extends Customer{
     public String toString() {
         return "Corporate{" + "corporateName=" + corporateName + ", creditLimit=" + creditLimit + '}';
     }
+
+    
+
+   
     
     
     

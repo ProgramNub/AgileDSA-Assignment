@@ -7,16 +7,17 @@ package Entities;
 
 /**
  *
- * @author asus
+ * @author Desmond Chooi
  */
 public class Consumer extends Customer{
     
     private String consumerName;
+    
 
     public Consumer() {
     }
 
-    public Consumer(String custID,String consumerName,  String custAddress, String custContact, char custType) {
+    public Consumer(String custID, String consumerName, char custType, String custAddress, String custContact) {
         super(custID, custAddress, custContact, custType);
         this.consumerName = consumerName;
         
@@ -34,6 +35,10 @@ public class Consumer extends Customer{
     public String toString() {
         return "Consumer{" + "consumerName=" + consumerName + '}';
     }
+
+    
+
+    
     
     
     

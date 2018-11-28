@@ -10,7 +10,7 @@ package Entities;
 
 /**
  *
- * @author asus
+ * @author Desmond Chooi
  */
 public class Customer {
     
@@ -38,8 +38,16 @@ public class Customer {
         this.custID = custID;
     }
 
+    public char getCustType() {
+        return custType;
+    }
+
+    public void setCustType(char custType) {
+        this.custType = custType;
+    }
     
     
+
     public String getCustAddress() {
         return custAddress;
     }
@@ -56,17 +64,14 @@ public class Customer {
         this.custContact = custContact;
     }
 
-    public char getCustType() {
-        return custType;
-    }
-
-    public void setCustType(char custType) {
-        this.custType = custType;
-    }
-
     @Override
     public String toString() {
         return "Customer{" + "custID=" + custID + ", custAddress=" + custAddress + ", custContact=" + custContact + ", custType=" + custType + '}';
     }
+
+    
+    
+    
+    
     
 }
