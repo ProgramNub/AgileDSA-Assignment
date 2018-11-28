@@ -5,8 +5,8 @@
  */
 package CustomerMaintenance;
 
-import entity.Corporate;
-import entity.Consumer;
+import Entities.Corporate;
+import Entities.Consumer;
 
 import java.util.LinkedList;
 import java.util.List;
