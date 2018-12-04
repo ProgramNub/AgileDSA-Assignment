@@ -10,7 +10,7 @@ package Entities;
  * @author Desmond Chooi
  */
 public class Corporate extends Customer{
-    
+     
     
     private String corporateName;
     private double creditLimit;
