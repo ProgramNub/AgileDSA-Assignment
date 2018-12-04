@@ -9,17 +9,17 @@ package Entities;
  *
  * @author User
  */
-public class ItemEnjiun {
+public class Item {
     private String itemID;
     private String itemName;
     private char type;
     private double unitPrice;
     private int quantityBought;
 
-    public ItemEnjiun() {
+    public Item() {
     }
 
-    public ItemEnjiun(String itemID, String itemName, char type, double unitPrice, int quantityBought) {
+    public Item(String itemID, String itemName, char type, double unitPrice, int quantityBought) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.type = type;

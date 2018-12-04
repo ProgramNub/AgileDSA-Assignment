@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Entities;
 
 import Interfaces.ListInterface;
@@ -116,8 +121,4 @@ public class Order {
         return "Order{" + "orderID=" + orderID + ", orderItems=" + orderItems + ", orderPrice=" + orderPrice + ", dateOrdered=" + dateOrdered + ", dateReceive=" + dateReceive + ", hourReceive=" + hourReceive + ", status=" + status + ", type=" + type + ", orderRef=" + orderRef + '}';
     }
 
-    
-    
-    
-    
 }
