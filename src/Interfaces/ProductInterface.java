@@ -3,22 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asms2;
+package Interfaces;
 
 /**
  *
  * @author lebor
  */
 public interface ProductInterface {
-    
-    void menu();
+
     public void addProduct();
+
     public void updateProduct();
+
     public void updateQuantity();
+
     public void updateDescription();
+
     public void DeleteProduct();
-    
+
     public void showList();
-    public void showProductList();
-    
+
+    public void showProductCategory();
+
 }
