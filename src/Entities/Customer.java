@@ -9,7 +9,7 @@ package Entities;
 
 
 /**
- *
+
  * @author Desmond Chooi
  */
 public class Customer {
