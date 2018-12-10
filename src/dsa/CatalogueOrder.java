@@ -7,13 +7,14 @@ package dsa;
 
 import Entities.Consumer;
 import Entities.Corporate;
-import Entities.ItemEnjiun;
+import Entities.Item;
 import Entities.LinkedList;
 import Interfaces.ListInterface;
 import java.util.Scanner;
-import Entities.ProductEnjiun;
+import Interfaces.Product;
 import Entities.Order;
-import static dsa.SalesOrder.findDuplicates;
+import Interfaces.Product;
+//import static dsa.SalesOrder.findDuplicates;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,38 +27,11 @@ import java.util.Locale;
  */
 public class CatalogueOrder {
 
-    public static void main(String[] args) throws ParseException {
-
+    //public static void orderMain(ListInterface<Product> flowers, ListInterface<Item> realItems,ListInterface<Product> bouquets, ListInterface<Corporate> corporates,ListInterface<Consumer> consumers,ListInterface<Product> arangements, ListInterface<Item> items,  ListInterface<Order> orders) {
+    public static void orderMain(ListInterface<Product> flowers, ListInterface<Item> realItems,ListInterface<Product> bouquets, ListInterface<Corporate> corporates,ListInterface<Consumer> consumers, ListInterface<Item> items,  ListInterface<Order> orders) {
         Scanner scan = new Scanner(System.in);
 
-        //Create Lists
-        ListInterface<ItemEnjiun> items = new LinkedList<>();
-        ListInterface<ProductEnjiun> flowers = new LinkedList<>();
-        ListInterface<ProductEnjiun> bouquets = new LinkedList<>();
-        ListInterface<Order> orders = new LinkedList<>();
-        ListInterface<Consumer> Consumer = new LinkedList<>();
-        ListInterface<Corporate> Corporate = new LinkedList<>();
-        ListInterface<ItemEnjiun> realItems = new LinkedList<>();
-
-        //Add dummies into lists
-        flowers.add(new ProductEnjiun("F001", "Rose", 'F', 6.00, 0));
-        flowers.add(new ProductEnjiun("F002", "Sunflower", 'F', 7.00, 50));
-        flowers.add(new ProductEnjiun("F003", "Lavender", 'F', 8.00, 50));
-
-        bouquets.add(new ProductEnjiun("B001", "Oval shaped", 'B', 6.00, 0));
-        bouquets.add(new ProductEnjiun("B002", "Cresent shaped", 'B', 7.00, 50));
-        bouquets.add(new ProductEnjiun("B003", "Square shaped", 'B', 8.00, 50));
-
-        Consumer.add(new Consumer("I001", "Eden Hazard", "Block 20-2, Cardinal Apartment, Oklahama", "012-1286421", 'I'));
-        Consumer.add(new Consumer("I002", "Alvaro Morata", "Block 90-1-4, Taman Apartment, Rawang, Selangor", "011-2134143", 'I'));
-        Consumer.add(new Consumer("I003", "Alan", "No.32, Taman Alma, Butterworth, Penang", "019-2483263", 'I'));
-        Consumer.add(new Consumer("I004", "Martin", "No.44, Taman Sri Rampai, Wangsa Maju, Kuala Lumpur", "018-2785832", 'I'));
-
-        Corporate.add(new Corporate("C001", "Super Flower Sdn.Bhd.", "129 Jalan Alam Shah, Wangsa Maju, Kuala Lumpur", "08-8421412", 990.00, 'C'));
-        Corporate.add(new Corporate("C002", "Goh Marriage Sdn.Bhd.", "13 Jalan Perindustrian 16, Bayan Lepas, Pulau Pinang", "04-3435234", 1990.00, 'C'));
-        Corporate.add(new Corporate("C003", "North Face Ltd.", "10 Jalan Sultan Ahmad Shah, Rawang, Selangor", "08-8214532", 1500.00, 'C'));
-        Corporate.add(new Corporate("C004", "ChocoPoker Ltd. ", "91 Jalan Perindustrian Ipoh, Ipoh, Perak", "05-5242234", 1690.00, 'C'));
-
+ 
         //Check whether is individual or corporate customer
         String cust;
 
@@ -72,36 +46,27 @@ public class CatalogueOrder {
 
         System.out.println("");
         String cons;
-        if (cust.matches("^[Ii]$")) {
-            System.out.println("==============Customer List=============");
-            for (int i = 0; i < Consumer.size(); i++) {
-                System.out.println(String.format("%d. %-20s \t %-50s \t %-12s", i + 1,
-                        Consumer.get(i).getConsumerName(), Consumer.get(i).getCustAddress(),
-                        Consumer.get(i).getCustContact()));
-            }
-            //Choose customer for order
-
+        if (cust.matches("^[Ii]$")) {   
+        //Choose customer for order
             do {
+                DisplayList.displayConsumerList(consumers);
+            
                 System.out.print("Choose customer number: ");
                 cons = scan.nextLine();
-                if (!cons.matches("^[1-" + (Consumer.size() + 1) + "]$")) {
+                if (!cons.matches("^[1-" + (consumers.size() + 1) + "]$")) {
                     System.out.println("Incorrect input, please enter input as listed.");
                 }
-            } while (!cons.matches("^[1-" + (Consumer.size() + 1) + "]$"));
+            } while (!cons.matches("^[1-" + (consumers.size() + 1) + "]$"));
         } else {
-            System.out.println("=======Corporate List==========");
-            for (int i = 0; i < Corporate.size(); i++) {
-                System.out.println(String.format("%d. %-20s \t %-50s \t %-12s \t %-6.2f", i + 1,
-                        Corporate.get(i).getCorporateName(), Corporate.get(i).getCustAddress(),
-                        Corporate.get(i).getCustContact(), Corporate.get(i).getCreditLimit()));
-            }
+                
             do {
+                DisplayList.displayCorporateList(corporates);
                 System.out.print("Choose corporate number: ");
                 cons = scan.nextLine();
-                if (!cons.matches("^[1-" + (Corporate.size() + 1) + "]$")) {
+                if (!cons.matches("^[1-" + (corporates.size() + 1) + "]$")) {
                     System.out.println("Incorrect input, please enter input as listed.");
                 }
-            } while (!cons.matches("^[1-" + (Corporate.size() + 1) + "]$"));
+            } while (!cons.matches("^[1-" + (corporates.size() + 1) + "]$"));
         }
 
         //Let user choose what they want to order
@@ -136,6 +101,11 @@ public class CatalogueOrder {
             } while (!ans.matches("^[YyNn]$"));
         } while (ans.matches("^[Yy]$"));
 
+        
+        
+        
+        
+        
         //Display order
         double orderFlwPrice = 0;
         double orderBqtPrice = 0;
@@ -160,22 +130,6 @@ public class CatalogueOrder {
                 orderBqtPrice += realItems.get(i).getUnitPrice();
             }
         }
-//        for (int i = 0; i < items.size(); i++) {
-//            if (items.get(i).getType() == 'F') {
-//                System.out.println(items.get(i).getName() + " " + items.get(i).getQuantity() + " " + items.get(i).getPrice());
-//                orderFlwPrice += items.get(i).getPrice();
-//            }
-//        }
-//        System.out.println("Flower total price: RM" + orderFlwPrice);
-//
-//        System.out.println("");
-//
-//        for (int i = 0; i < items.size(); i++) {
-//            if (items.get(i).getType() == 'B') {
-//                System.out.println(items.get(i).getName() + " " + items.get(i).getQuantity() + " " + items.get(i).getPrice());
-//                orderBqtPrice += items.get(i).getPrice();
-//            }
-//        }
 
         System.out.println("Bouquet total price: RM" + orderBqtPrice);
         System.out.println("");
@@ -217,41 +171,40 @@ public class CatalogueOrder {
         do {
             System.out.print("Please enter time for receive (hh):");
             hour = scan.nextLine();
-            if (!hour.matches("^[1-24]$")) {
+            if (!hour.matches("^([1-9]|1[0-9]|2[0-4])$")) {
                 System.out.println("Incorrect input, please enter input as listed.");
             }
-        } while (!hour.matches("^[1-24]$"));
+        } while (!hour.matches("^([1-9]|1[0-9]|2[0-4])$"));
 
-        String orderID = "";
-        String orderRef;
-        if (delPick.matches("^[Pp]$")) {
-            if (cust.matches("^[Ii]$")) {
-                int orderNum = 0;
-                orderNum++;
-                orderID += "PI" + orderNum;
-                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustID();
-            } else {
-                int orderNum = 0;
-                orderNum++;
-                orderID += "PC" + orderNum;
-                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustID();
-            }
-        } else {
-            if (cust.matches("^[Ii]$")) {
-                int orderNum = 0;
-                orderNum++;
-                orderID += "DI" + orderNum;
-                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustAddress();
-            } else {
-                int orderNum = 0;
-                orderNum++;
-                orderID += "DC" + orderNum;
-                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustAddress();
-            }
-        }
+        String orderID = String.format("O%03d", orders.size() + 1);
+        String orderRef = consumers.get(Integer.parseInt(cons) - 1).getCustID();;
+
+//        if (delPick.matches("^[Pp]$")) {
+//            if (cust.matches("^[Ii]$")) {
+//                orderID = String.format("O%03d", orders.size() + 1);
+//                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustID();
+//            } else {
+//                int orderNum = 0;
+//                orderNum++;
+//                orderID += "PC" + orderNum;
+//                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustID();
+//            }
+//        } else {
+//            if (cust.matches("^[Ii]$")) {
+//                int orderNum = 0;
+//                orderNum++;
+//                orderID += "DI" + orderNum;
+//                orderRef = Consumer.get(Integer.parseInt(cons) - 1).getCustAddress();
+//            } else {
+//                int orderNum = 0;
+//                orderNum++;
+//                orderID += "DC" + orderNum;
+//                orderRef = Corporate.get(Integer.parseInt(cons) - 1).getCustAddress();
+//            }
+//        }
 
         orders.add(new Order(orderID, realItems, (orderFlwPrice + orderBqtPrice), dNow, receiveDate, Integer.parseInt(hour), 'U', delPick.charAt(0), orderRef));
-        System.out.print(orders.get(0));
+        //MainMenu.main();
 
     }
 
