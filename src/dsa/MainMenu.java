@@ -10,7 +10,7 @@ import Entities.Corporate;
 import Entities.Item;
 import Entities.LinkedList;
 import Entities.Order;
-import Interfaces.Product;
+import Entities.Product;
 import Interfaces.ListInterface;
 import java.util.Scanner;
 
@@ -19,30 +19,31 @@ import java.util.Scanner;
  * @author User
  */
 public class MainMenu {
-    
-    public static void main(String[] args){
-        
-       
+
+    public static void main(String[] args) {
+
         ListInterface<Item> items = new LinkedList<>();
-        ListInterface<Product> products = ListDummies.ProductList();
+        ListInterface<Product> products = new LinkedList<>();
+        Dummies.ProductList(products);
         ListInterface<Order> orders = new LinkedList<>();
-        ListInterface<Consumer> consumers = ListDummies.ConsumerList();
-        ListInterface<Corporate> corporates = ListDummies.CorporateList();
-       
-        
-        
+        ListInterface<Consumer> consumers = new LinkedList<>();
+        Dummies.ConsumerList(consumers);
+        ListInterface<Corporate> corporates = new LinkedList<>();
+        Dummies.CorporateList(corporates);
+
         main(products, corporates, consumers, items, orders);
-        
+
         /*
          See if can combine function such as update or order flower
          Standardize display of lists
-        */
+         */
     }
-    
-   public static void main(ListInterface<Product> products, ListInterface<Corporate> corporates,ListInterface<Consumer> consumers, ListInterface<Item> items,  ListInterface<Order> orders){
-       Scanner scan = new Scanner(System.in);
-       String choice;
-        do{
+
+    public static void main(ListInterface<Product> products, ListInterface<Corporate> corporates, ListInterface<Consumer> consumers, ListInterface<Item> items, ListInterface<Order> orders) {
+        // public static void main(){
+        Scanner scan = new Scanner(System.in);
+        String choice;
+        do {
             System.out.println("Fiore Flower Shop");
             System.out.println("1.Customer");
             System.out.println("2.Products");
@@ -50,20 +51,18 @@ public class MainMenu {
             System.out.println("4.Exit");
             System.out.print("Please choose what you want to do:");
             choice = scan.nextLine();
-            if(choice.equals("1")){
-                CustomerMenu.customerMain(consumers, corporates);
-            }else if(choice.equals("2")){
-                ProductMenu.productMain(products);
-            }else if(choice.equals("3")){
-                CatalogueOrder.orderMain(products, corporates, consumers, items, orders);
-            }else if(choice.equals("4")){
+            if (choice.equals("1")) {
+                //CustomerMenu.customerMain(consumers, corporates);
+            } else if (choice.equals("2")) {
+                //ProductMenu.productMain(products);
+            } else if (choice.equals("3")) {
+                CatalogueOrder.custInfo(products, corporates, consumers, items, orders);
+            } else if (choice.equals("4")) {
                 System.exit(0);
-            }else if(!choice.matches("^[1-4]$")){
+            } else if (!choice.matches("^[1-4]$")) {
                 System.out.println("Incorrect input, please enter input as listed.");
             }
-        }while(!choice.matches("^[1-4]$"));
-   }
-    
-    
-    
+        } while (!choice.matches("^[1-4]$"));
+    }
+
 }

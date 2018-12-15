@@ -4,7 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/dsa/ItemOrder.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/test/Entities/OrderTest.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/dsa/Dummies.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/Entities/Item.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/dsa/MainMenu.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/dsa/DisplayList.java</file>
             <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/dsa/CatalogueOrder.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/Entities/Product.java</file>
+            <file>file:/C:/Users/User/Documents/NetBeansProjects/DSA/src/Entities/Order.java</file>
         </group>
     </open-files>
 </project-private>

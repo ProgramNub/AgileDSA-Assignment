@@ -5,6 +5,8 @@
  */
 package Entities;
 
+import Interfaces.ListInterface;
+
 /**
  *
  * @author Desmond Chooi
@@ -14,15 +16,34 @@ public class Corporate extends Customer{
     
     private String corporateName;
     private double creditLimit;
+    private char creditPayStat;
 
     public Corporate() {
        
     }
 
-    public Corporate(String custID, String corporateName, char custType, String custAddress, String custContact, double creditLimit) {
+    public Corporate(String custID, String corporateName, char custType, String custAddress, String custContact, double creditLimit, char creditPayStat) {
         super(custID, custAddress, custContact, custType);
         this.corporateName = corporateName;
         this.creditLimit = creditLimit;
+        this.creditPayStat = creditPayStat;
+    }
+    
+    public Corporate searchCorp(Customer customer, ListInterface<Corporate> corporates, Corporate corp){
+                for (int i = 0; i < corporates.size(); i++) {
+                    if (customer.getCustID().equals(corporates.get(i).getCustID())) {
+                        corp = corporates.get(i);
+                    }
+                }
+        return corp;
+    }
+
+    public char getCreditPayStat() {
+        return creditPayStat;
+    }
+
+    public void setCreditPayStat(char creditPayStat) {
+        this.creditPayStat = creditPayStat;
     }
 
     

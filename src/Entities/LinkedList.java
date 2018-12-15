@@ -2,7 +2,6 @@ package Entities;
 
 import Interfaces.ListInterface;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * LinkedList.java A class that implements the ADT list by using a chain of nodes,

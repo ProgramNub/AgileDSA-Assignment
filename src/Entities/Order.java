@@ -28,6 +28,10 @@ public class Order {
     private char status;
     private char type;
     private String orderRef;
+    
+    private boolean done;
+    private boolean check;
+    private boolean paid;
 
     public Order() {
     }
@@ -74,6 +78,58 @@ public class Order {
 
     public void setStatus(char status) {
         this.status = status;
+    }
+    
+    public void setPayment(boolean paid, boolean checked) {
+        checked = true;
+        if(paid != true)
+            setDone(false);
+        else
+            setDone(true);
+    }
+    
+    public boolean addOrder(ListInterface<Item> items, ListInterface<Order> orders, Customer customer, boolean paid, String delPick, String hour, double orderTtlPrice, Date dNow, Date receiveDate){
+        
+        char stat;
+        String orderId = String.format("O%03d", orders.size() + 1);
+        String orderReference;
+        
+        if (delPick.matches("^[Pp]$")) {
+            orderReference = customer.getCustID();
+        } else {
+            orderReference = customer.getCustAddress();
+        }
+        
+        if (paid == true) {
+            stat = 'P';
+        } else {
+            stat = 'U';
+        }
+
+        orders.add(new Order(orderId, items, orderTtlPrice, dNow, receiveDate, Integer.parseInt(hour), stat, delPick.charAt(0), orderReference));
+        
+        return true;
+        
+    }
+    
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
+    public void setDone(boolean done){
+        this.done = done;
+    }
+    
+    public boolean getDone(){
+        return done;
+    }
+    
+    public boolean getChecked(){
+        return check;
     }
 
     public char getType() {
