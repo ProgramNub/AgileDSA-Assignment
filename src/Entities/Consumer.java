@@ -11,29 +11,29 @@ package Entities;
  */
 public class Consumer extends Customer{
     
-    private String consumerName;
+    private String consumerIc;
     
 
     public Consumer() {
     }
 
-    public Consumer(String custID, String consumerName, char custType, String custAddress, String custContact) {
-        super(custID, custAddress, custContact, custType);
-        this.consumerName = consumerName;
+    public Consumer(String custID, String custName,String consumerIc, char custType, String custAddress, String custContact) {
+        super(custID, custName ,custAddress, custContact, custType);
+        this.consumerIc = consumerIc;
         
     }
 
-    public String getConsumerName() {
-        return consumerName;
+    public String getConsumerIc() {
+        return consumerIc;
     }
 
-    public void setConsumerName(String consumerName) {
-        this.consumerName = consumerName;
+    public void setConsumerName(String consumerIc) {
+        this.consumerIc = consumerIc;
     }
 
     @Override
     public String toString() {
-        return "Consumer{" + "consumerName=" + consumerName + '}';
+        return "Consumer{" + "consumerIc=" + consumerIc + '}';
     }
 
     
