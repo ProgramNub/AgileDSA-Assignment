@@ -16,6 +16,7 @@ package Entities;
 public class Customer {
     
     private String custID;
+    private String custName;
     private String custAddress;
     private String custContact;
     private char custType;
@@ -24,8 +25,9 @@ public class Customer {
         
     }
 
-    public Customer(String custID, String custAddress, String custContact, char custType) {
+    public Customer(String custID, String custName, String custAddress, String custContact, char custType) {
         this.custID = custID;
+        this.custName = custName;
         this.custAddress = custAddress;
         this.custContact = custContact;
         this.custType = custType;
@@ -39,15 +41,13 @@ public class Customer {
         this.custID = custID;
     }
 
-    public char getCustType() {
-        return custType;
+    public String getCustName() {
+        return custName;
     }
 
-    public void setCustType(char custType) {
-        this.custType = custType;
+    public void setCustName(String custName) {
+        this.custName = custName;
     }
-    
-    
 
     public String getCustAddress() {
         return custAddress;
@@ -65,10 +65,20 @@ public class Customer {
         this.custContact = custContact;
     }
 
+    public char getCustType() {
+        return custType;
+    }
+
+    public void setCustType(char custType) {
+        this.custType = custType;
+    }
+
     @Override
     public String toString() {
-        return "Customer{" + "custID=" + custID + ", custAddress=" + custAddress + ", custContact=" + custContact + ", custType=" + custType + '}';
+        return "Customer{" + "custID=" + custID + ", custName=" + custName + ", custAddress=" + custAddress + ", custContact=" + custContact + ", custType=" + custType + '}';
     }
+
+    
 
     
     
