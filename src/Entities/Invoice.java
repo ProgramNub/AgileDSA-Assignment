@@ -5,7 +5,7 @@
  */
 package Entities;
 
-import Interfaces.ListInterface;
+
 import java.util.Date;
 
 /**
@@ -30,8 +30,6 @@ public class Invoice {
         this.issuedDate = issuedDate;
         this.month = month;
     }
-
-    
 
     public String getInvoiceID() {
         return invoiceID;
@@ -73,9 +71,4 @@ public class Invoice {
         this.month = month;
     }
 
-    
-    
-    
-    
-    
 }

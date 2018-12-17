@@ -5,22 +5,19 @@
  */
 package InvoicePayment;
 
-import static dsa.CustomerUtility.displayCorporateList;
 import Entities.Corporate;
 import Entities.Invoice;
 import Entities.Item;
-import Entities.ItemEnjiun;
-import Entities.LinkedList;
+
 import Entities.Order;
 import Interfaces.ListInterface;
 import dsa.DisplayList;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -28,8 +25,10 @@ import java.util.logging.Logger;
  */
 public class InvoiceUtility {
 
-    private static Scanner sc = new Scanner(System.in);
-    private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    private static final Scanner sc = new Scanner(System.in);
+
+    private final static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    //private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     //Method for getting hardcoded Invoice
 //    public static ListInterface<Invoice> displayInvoiceList(ListInterface<Order> orderList, ListInterface<Item> itemList){
@@ -68,19 +67,24 @@ public class InvoiceUtility {
         }
 
         int i = Integer.parseInt(choice) - 1;
-        String corpID = corporate.get(i).getCustID();
-        
-        
+        String corpID = corporate.get(i).getCustID(),
+                corpName = corporate.get(i).getCustName(),
+                corpAddress = corporate.get(i).getCustAddress();
+
+        String invoiceID = String.format("IV%04d", invoiceList.size() + 1);
+        Date issueDate = new Date();
+//       Date dueDate = ;
+
         System.out.println(String.format("\nInvoice ID: %s\n"
                 + "Date Generated: %s\n"
-                + "Due Date: %s\n"
+                + "Due Date: 07-01-2019\n"
                 + "Corporate Name: (%s) %s\n"
                 + "Corporate Address: %s",
-                invoiceList.get(i).getInvoiceID(),
-                SIMPLE_DATE_FORMAT.format(invoiceList.get(i).getIssuedDate()),
-                SIMPLE_DATE_FORMAT.format(invoiceList.get(i).getDueDate()),
-                invoiceList.get(i).getCorporate().getCustID(),
-                invoiceList.get(i).getCorporate().getCustAddress()));
+                invoiceID,
+                formatter.format(issueDate),
+                //                dueDate,
+                corpName, corpID,
+                corpAddress));
 
         //Looping to display the orders for a specific corporate
         //ListInterface<Order> orderList = invoiceList.get(i).getOrder();
@@ -88,58 +92,55 @@ public class InvoiceUtility {
         LocalDate today = LocalDate.now();
         int month = today.getMonthValue();
         for (int b = 0; b < orders.size(); b++) {
-            if(orders.get(b).getMonth() == month){
+            if (orders.get(b).getMonth() == (month - 1)) {
                 if (corpID.equals(orders.get(b).getCustomer().getCustID())) {
-                    System.out.print(String.format("\nOrder ID: %s \t Ordered on: %s",
-                        orders.get(b).getOrderID(), SIMPLE_DATE_FORMAT.format(orders.get(b).getDateOrdered())));
-                    
+                    System.out.print(String.format("\nOrder ID: %s \t Ordered on: %s\n", orders.get(b).getOrderID(), formatter.format(orders.get(b).getDateOrdered())));
+
+                    String orderId = orders.get(b).getOrderID();
                     for (int c = 0; c < itemList.size(); c++) {
-                    if (itemList.get(i).getOrderID().equals(corpID)) {
-                    System.out.println(String.format("%-15s \t %-30s \t %5s \t %-10.2f \t -10d",
-                            itemList.get(c).getItemID(),
-                            itemList.get(c).getItemName(),
-                            itemList.get(c).getType(),
-                            itemList.get(c).getUnitPrice(),
-                            itemList.get(c).getQuantityBought()));
-                    //Sum total price
-                    totalPrice += itemList.get(c).getUnitPrice() * itemList.get(c).getQuantityBought();
-                }
-            }
+                        if (itemList.get(c).getOrderID().equals(orderId)) {
+                            System.out.println(String.format("%-15s \t %-30s \t %5s \t %-10.2f \t %d",
+                                    itemList.get(c).getItemID(),
+                                    itemList.get(c).getItemName(),
+                                    itemList.get(c).getType(),
+                                    itemList.get(c).getUnitPrice(),
+                                    itemList.get(c).getQuantityBought()));
+                            //Sum total price
+                            totalPrice += itemList.get(c).getUnitPrice();
+                        }
+                    }
                 }
             }
 
             //Looping to display individual product for a specific order
-            
             invoiceHeader(2);
         }
 
         //Display the total payment for an invoice
         System.out.println(String.format("TOTAL PRICE: RM%.2f", totalPrice));
-        System.out.println(String.format("PLEASE PAID BY %s", SIMPLE_DATE_FORMAT.format(invoiceList.get(i).getDueDate())));
+        //System.out.println(String.format("PLEASE PAID BY %s", formatter.format(invoiceList.get(i).getDueDate())));
 
         //Check invoice due date whether passed or not yet
-        if (new Date().after(invoiceList.get(i).getDueDate())) {
-            System.out.println(String.format("Invoice Due Date: %s\n Today's Date: %s\n Invoice already passed the due date. Please made the payment first before you are allowed to make orders and paid using the credits",
-                    SIMPLE_DATE_FORMAT.format(invoiceList.get(i).getDueDate()),
-                    SIMPLE_DATE_FORMAT.format(new Date())));
-        }
+//        if (new Date().after(invoiceList.get(i).getDueDate())) {
+//            System.out.println(String.format("Invoice Due Date: %s\n Today's Date: %s\n Invoice already passed the due date. Please made the payment first before you are allowed to make orders and paid using the credits",
+//                    formatter.format(invoiceList.get(i).getDueDate()),
+//                    formatter.format(new Date())));
+//        }
+//        while (true) {
+//            System.out.print("Have this invoice paid? (Y/N): ");
+//            choice = sc.nextLine();
+//            if (choice.matches("^[YynN]$")) {
+//                break;
+//            }
+//            System.out.println("Invalid choice detected. Please try again with only 'Y' or 'N'.");
+//        }
 
-        while (true) {
-            System.out.print("Have this invoice paid? (Y/N): ");
-            choice = sc.nextLine();
-            if (choice.matches("^[YynN]$")) {
-                break;
-            }
-            System.out.println("Invalid choice detected. Please try again with only 'Y' or 'N'.");
-        }
-
-        if (choice.matches("^[Yy]$")) {
-            Corporate corp = (Corporate) invoiceList.get(i).getCorporate();
-            corp.setCreditLimit(corp.getCreditLimit() + totalPrice);
-            invoiceList.remove(i);
-            System.out.println("Payment successfully made. Thank you and have a nice day!\n");
-        }
-
+//        if (choice.matches("^[Yy]$")) {
+//            Corporate corp = (Corporate) invoiceList.get(i).getCorporate();
+//            corp.setCreditLimit(corp.getCreditLimit() + totalPrice);
+//            invoiceList.remove(i);
+//            System.out.println("Payment successfully made. Thank you and have a nice day!\n");
+//        }
     }
 
 //    //Method to filter corporate list for invoice list
@@ -160,7 +161,7 @@ public class InvoiceUtility {
 
         switch (choice) {
             case 1:
-                System.out.println("********************************************************************************************************************************");
+                System.out.println("\n********************************************************************************************************************************");
                 System.out.println(String.format("Product ID \t Product Name \t Product Type \t Product Price(Per Unit) \t Quantity Order \t %-20s Total Price", ""));
                 System.out.println("********************************************************************************************************************************");
                 break;

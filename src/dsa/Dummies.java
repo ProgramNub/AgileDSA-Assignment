@@ -8,6 +8,7 @@ package dsa;
 import Entities.Consumer;
 import Entities.Corporate;
 import Entities.Customer;
+import Entities.Item;
 import Entities.ItemEnjiun;
 import Entities.LinkedList;
 import Entities.Order;
@@ -58,17 +59,25 @@ public class Dummies {
 
         return products;
     }
+    
+    public static ListInterface<Item> itemList(ListInterface<Item> items) {
 
-    public static ListInterface<Order> OrderList(ListInterface<Product> products, ListInterface<Corporate> custs) {
-        ListInterface<Order> orderList = new LinkedList<>();
+        // itemID, String itemName, char type, double unitPrice, int quantityBought, String OrderID)
+        items.add(new Item("I001", "Rose", 'F', 20.00, 2, "OD0001"));
+        items.add(new Item("I002", "Orchid", 'F', 50.00, 5, "OD0001"));
         
-//        ListInterface<ItemEnjiun> itemList = new LinkedList<>();
         
+
+        return items;
+    }
+
+    public static ListInterface<Order> OrderList(ListInterface<Product> products, ListInterface<Corporate> custs, ListInterface<Order> orderList) {
+
         try {
-            orderList.add(new Order("OD0001", 500.00, SIMPLE_DATE_FORMAT.parse("11-11-2018"), SIMPLE_DATE_FORMAT.parse("15-11-2018"), custs.get(0), 2, 'P', 'B', 12));
-            orderList.add(new Order("OD0002", 100.00, SIMPLE_DATE_FORMAT.parse("20-11-2018"), SIMPLE_DATE_FORMAT.parse("22-11-2018"), custs.get(1), 2, 'D', 'B', 12));
+            orderList.add(new Order("OD0001", 500.00, SIMPLE_DATE_FORMAT.parse("11-11-2018"), SIMPLE_DATE_FORMAT.parse("15-11-2018"), custs.get(0), 2, 'P', 'B', 11));
+            orderList.add(new Order("OD0002", 100.00, SIMPLE_DATE_FORMAT.parse("20-11-2018"), SIMPLE_DATE_FORMAT.parse("22-11-2018"), custs.get(1), 2, 'D', 'B', 11));
         } catch (Exception ex) {
-            Logger.getLogger(Dummies.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getMessage();
         }
                 
         return orderList;
