@@ -7,6 +7,10 @@ package dsa;
 
 import Interfaces.ListInterface;
 import Interfaces.Product;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -17,7 +21,7 @@ public class ProductMenu {
 
     public static boolean a = false;
 
-    public static void productMain(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void productMain(ListInterface<Product> products) {
         Scanner s = new Scanner(System.in);
 
         int ans = 0;
@@ -30,31 +34,40 @@ public class ProductMenu {
             System.out.println("Flower Menu: ");
             System.out.println("1.View Product");
             System.out.println("2.Add Product");
-            System.out.println("3.Update Product Quantuty");
+            System.out.println("3.Update Product");
             System.out.println("4.Delete Product");
-            System.out.println("5.Exit");
+            System.out.println("5.Show Product Offer");
+            System.out.println("6.Exit");
             System.out.print("Please Enter your option : ");
             ans = s.nextInt();
             if (ans == 1) {
-                viewProduct(flowers, bouquets);
+                viewProduct(products);
                 a = true;
             } else if (ans == 2) {
-                addProduct(flowers, bouquets);
+                addProduct(products);
                 a = true;
             } else if (ans == 3) {
-                updateProduct(flowers, bouquets);
+                updateProduct(products);
                 a = true;
             } else if (ans == 4) {
-                DeleteProduct(flowers, bouquets);
+                DeleteProduct(products);
                 a = true;
             } else if (ans == 5) {
-                System.exit(0);
+                  showOffer(products);
+                  a = true;
+                
+            }else if(ans ==6){
+              ;
+                a=true;
+            }else if (ans ==7){
+              System.exit(0);
+               a=true;
             }
             count++;
         } while (a != true);
     }
 
-    public static void addProduct(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void addProduct(ListInterface<Product> products) {
 
         int count = 0;
         String type;
@@ -72,12 +85,12 @@ public class ProductMenu {
             if (type.equals("1")) {
                 p.setProductCat('F');
                 System.out.print("Product ID:");
-                p.setProductID(String.format("F%03d", flowers.size() + 1));
+                p.setProductID(String.format("F%03d", products.size() + 1));
                 System.out.println(p.getProductID());
             } else if (type.equals("2")) {
                 p.setProductCat('B');
                 System.out.print("Product ID:");
-                p.setProductID(String.format("B%03d", bouquets.size() + 1));
+                p.setProductID(String.format("B%03d", products.size() + 1));
                 System.out.println(p.getProductID());
             } else if (type.equals("3")) {
                 //p.setProductCat('A');
@@ -117,13 +130,50 @@ public class ProductMenu {
             System.out.print("Please enter Product Description: ");
         }
         p.setProductDescription(sc.next());
+        
+        String addD;
+        
+        do{
+            System.out.println("Add product offer?");
+            System.out.print("enter 1 = Yes enter 2 =No:");
+            
+            addD = sc.next();
+            
+            
+            if (addD.equals("1")) {
+                System.out.print("\n");
+                System.out.print("Please product discount rate:");
+                     while (!sc.hasNextDouble()) {
+                        System.out.println("Product discount should not be blank and must number!!.Please retry");
+                        System.out.println("Please enter product duscount: ");
+                     }
+                 p.setDiscount(sc.nextDouble());
 
-        if (type.equals("1")) {
-            flowers.add(p);
-        } else if (type.equals("2")) {
-            bouquets.add(p);
-        }
-
+                System.out.print("Please Offer Month.:");
+                     while (!sc.hasNextInt()) {
+                        System.out.println("Product discount should not be blank and must number!!.Please retry");
+                        System.out.println("Please enter product duscount: ");
+                    }
+                 p.setDiscountMonth(sc.nextInt());
+                 
+            } else if (addD.equals("2")) {
+                 p.setDiscountMonth(0);
+                 p.setDiscount(0);
+                 
+            } else if (addD.equals("3")) {
+                //p.setProductCat('A');
+                
+            } else if (!addD.matches("^[1-3]$")) {
+                System.out.println("Incorrect input, please enter input as listed.");
+            }
+            
+        }while(!type.matches("^[1-3]$"));
+        
+            if (type.equals("1")) {
+                products.add(p);
+          } else if (type.equals("2")) {
+                products.add(p);
+          }
         System.out.println("New Product Added in to List");
         showProduct(p);
 
@@ -139,10 +189,10 @@ public class ProductMenu {
                 System.out.println("Incorrect Input,Only enter 1 ,2 and 3 only");
             }
             if (ans1 == 1) {
-                addProduct(flowers, bouquets);
+                addProduct(products);
                 a = true;
             } else if (ans1 == 2) {
-                productMain(flowers, bouquets);
+                productMain(products);
                 a = true;
             } else if (ans1 == 3) {
                 System.exit(0);
@@ -152,13 +202,13 @@ public class ProductMenu {
         }
     }
 
-    public static void updateProduct(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void updateProduct(ListInterface<Product> products) {
 
         String type;
         Scanner sc = new Scanner(System.in);
 
         do {
-
+            String p = "Flower";
             System.out.println("==========Update Product ========");
             System.out.println("Please Select Product Category");
             System.out.println("1. Fresh Flowers");
@@ -172,9 +222,10 @@ public class ProductMenu {
             type = sc.nextLine();
 
             if (type.equals("1")) {
-                updateFlower(flowers, bouquets);
+                updateFlower(products, p);
             } else if (type.equals("2")) {
-                updateBouquet(flowers,bouquets);
+                p = "Bouquet";
+                updateBouquet(products ,p);
             } else if (!type.matches("^[1-2]$")) {
                 System.out.println("Incorrect input, please enter input as listed.");
             }
@@ -182,23 +233,33 @@ public class ProductMenu {
 
     }
 
-    public static void updateFlower(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void updateFlower(ListInterface<Product> products, String p) {
         int ans = 0;
         String id = "";
         int count = 0;
-        DisplayList.displayFlowerList(flowers);
+        char t;
+        if(p.equals("Flower")){
+            t = 'F';
+        }else{
+            t = 'B';
+        }
+        DisplayList.displayProductList(products, p, t);
+        
         Scanner b = new Scanner(System.in);
 
         System.out.print("Select Product By ID number: ");
         id = b.nextLine();
-        for (int i = 0; i < flowers.size(); i++) {
-            if (flowers.get(i).getProductID().equals(id)) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProductID().equals(id)) {
                 System.out.println("1. Update Product Quantity");
                 System.out.println("2. Update Product Description");
+                System.out.println("3. Update Product  month Promotion");
                 System.out.print("Please enter option: ");
                 String opt = b.nextLine();
                 String stock = "";
                 String newDescription = "";
+                int promoMonth = 0;
+                int promoRate  = 0;
                 if(opt.equals("1")){
                     do{
                         System.out.print("Enter Product Quantity: ");
@@ -208,7 +269,7 @@ public class ProductMenu {
                             System.out.print("Please enter product Quantity: ");
                         }
                     }while (!stock.matches("^[1-9]+$"));  
-                    flowers.get(i).setProductQuantity(Integer.parseInt(stock));
+                    products.get(i).setProductQuantity(Integer.parseInt(stock));
                     System.out.println("Stock have been updated!\n");
                 }
                 
@@ -221,12 +282,32 @@ public class ProductMenu {
                             System.out.print("Please enter product Quantity: ");
                         }
                     }while (newDescription == null);   
-                    flowers.get(i).setProductDescription(newDescription);
+                    products.get(i).setProductDescription(newDescription);
                     System.out.println("Description have been updated!\n");
-                }
-             
+                    
+                }else if(opt.equals("3")){
+                            
+                           System.out.print("Enter Product month promotion: ");
+                            while (!b.hasNextInt()) {
+                             b.next();
+                             System.out.println("Product month promotion should not be blank and must number!!.Please retry");
+                             System.out.print("Please enter Product month promotion: ");
+                             }
+                          
+                           products.get(i).setDiscountMonth(promoMonth);
                 
-
+                         System.out.print("Enter Product month promotion rate%: ");
+                         promoRate = b.nextInt();
+                          while (!b.hasNextInt()) {
+                             b.next();
+                             System.out.println("Product month promotion rate should not be blank and must number!!.Please retry");
+                             System.out.print("Product month promotion rate promotion: ");
+                             }
+                             products.get(i).setDiscount(promoRate);          
+                         
+                
+                }
+                    System.out.println("Stock have been updated!\n");
 
                 while (a = true) {
                     if (count >= 1) {
@@ -240,10 +321,10 @@ public class ProductMenu {
                     Scanner s = new Scanner(System.in);
                     ans = s.nextInt();
                     if (ans == 1) {
-                        updateProduct(flowers, bouquets);
+                        updateProduct(products);
                         a = true;
                     } else if (ans == 2) {
-                        productMain(flowers, bouquets);
+                        productMain(products);
                         a = true;
                     } else if (ans == 3) {
                         System.exit(0);
@@ -255,17 +336,17 @@ public class ProductMenu {
         }
     }
 
-    public static void updateBouquet(ListInterface<Product> flowers,ListInterface<Product> bouquets) {
+    public static void updateBouquet(ListInterface<Product> products, String p) {
         int ans = 0;
         String id = "";
         int count = 0;
-        DisplayList.displayFlowerList(bouquets);
+        DisplayList.displayFlowerList(products);
         Scanner b = new Scanner(System.in);
 
         System.out.print("Select Product By ID number: ");
         id = b.nextLine();
-        for (int i = 0; i < bouquets.size(); i++) {
-            if (bouquets.get(i).getProductID().contentEquals(id)) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProductID().contentEquals(id)) {
                 System.out.println("1. Update Product Quantity");
                 System.out.println("2. Update Product Description");
                 System.out.print("Please enter option: ");
@@ -281,7 +362,7 @@ public class ProductMenu {
                             System.out.print("Please enter product Quantity: ");
                         }
                     }while (!stock.matches("^[1-9]+$"));  
-                    bouquets.get(i).setProductQuantity(Integer.parseInt(stock));
+                   products.get(i).setProductQuantity(Integer.parseInt(stock));
                 }
                 
                 else if(opt.equals("2")){
@@ -293,7 +374,7 @@ public class ProductMenu {
                             System.out.print("Please enter product Quantity: ");
                         }
                     }while (!stock.matches("^[1-9]+$"));   
-                    bouquets.get(i).setProductDescription(newDescription);
+                    products.get(i).setProductDescription(newDescription);
                 }
              
                 System.out.println("Stock have been updated!\n");
@@ -311,10 +392,10 @@ public class ProductMenu {
                     Scanner s = new Scanner(System.in);
                     ans = s.nextInt();
                     if (ans == 1) {
-                        updateProduct(flowers, bouquets);
+                        updateProduct(products);
                         a = true;
                     } else if (ans == 2) {
-                        productMain(flowers, bouquets);
+                        productMain(products);
                         a = true;
                     } else if (ans == 3) {
                         System.exit(0);
@@ -334,14 +415,16 @@ public class ProductMenu {
 
     }
 
-    public static void viewProduct(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void viewProduct(ListInterface<Product> products) {
         int count = 0;
         String type;
         int ans;
         Scanner sc = new Scanner(System.in);
-
+        
+        
+       
         do {
-
+            String p = "Flower";
             System.out.println("==========View Product========");
             System.out.println("Please Select Product Category");
             System.out.println("1. Fresh Flowers");
@@ -351,19 +434,17 @@ public class ProductMenu {
             System.out.print("Please choose the product type: ");
             type = sc.nextLine();
 
-            if (type.equals("1")) {
-                DisplayList.displayFlowerList(flowers);
-            } else if (type.equals("2")) {
-                DisplayList.displayBouquetList(bouquets);
-            } //else if (type.equals("3")) {
-            //                System.out.println("Product ID\t" + "Product Category\t" + "Product Name\t" + "Product Quantity\t" + "Product Price\t" + "Product Description\t");
-            //                System.out.println("====================================================================================================================");
-            //                for (int i = 0; i < flowers.size(); i++)
-            //                        System.out.printf("%-2s\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n", flowers.get(i).getProductID(), flowers.get(i).getProductCat(), flowers.get(i).getProductName(), flowers.get(i).getProductQuantity(), flowers.get(i).getProductPrice(), flowers.get(i).getProductDescription());
-            //                
-            //            } else if (type.equals("4")) {
-            else if (type.equals("4")) {
-                productMain(flowers, bouquets);
+            if (type.equals("1") || type.equals("2")) {
+                char t;
+                if(type.equals("2")){
+                    t = 'B';
+                }else{
+                    t = 'F';
+                }
+                DisplayList.displayProductList(products, p, t);
+           
+            }else if (type.equals("4")) {
+                productMain(products);
             } else if (!type.matches("^[1-4]$")) {
                 System.out.println("Incorrect input, please enter input as listed.");
             }
@@ -382,24 +463,27 @@ public class ProductMenu {
             Scanner s = new Scanner(System.in);
             ans = s.nextInt();
             if (ans == 1) {
-                viewProduct(flowers, bouquets);
+                viewProduct(products);
                 a = true;
             } else if (ans == 2) {
-                productMain(flowers, bouquets);
+                productMain(products);
                 a = true;
             } else if (ans == 3) {
                 System.exit(0);
             }
             count++;
         }
+     
 
     }
 
-    public static void DeleteProduct(ListInterface<Product> flowers, ListInterface<Product> bouquets) {
+    public static void DeleteProduct(ListInterface<Product> products) {
         int ans = 0;
         int count = 0;
         String id = "";
+        boolean found;
         Scanner b = new Scanner(System.in);
+        Product product = new Product();
         String type;
         do {
 
@@ -413,41 +497,30 @@ public class ProductMenu {
             type = b.nextLine();
 
             if (type.equals("1")) {
-                DisplayList.displayFlowerList(flowers);
+                DisplayList.displayFlowerList(products);
                 System.out.print("Select Product By ID number: ");
                 id = b.nextLine();
-                for (int i = 0; i < flowers.size(); i++) {
-                    if (flowers.get(i).getProductID().equals(id)) {
-                        flowers.remove(i);
+                found = product.deleteProduct(products, id);
+                    if (found = true) {
                         System.out.println("Product have been Deleted!\n");
                     } else {
                         System.out.println("Product not found.\n");
                     }
-                }
             } else if (type.equals("2")) {
-                DisplayList.displayBouquetList(bouquets);
+                DisplayList.displayBouquetList(products);
                 System.out.print("Select Product By ID number: ");
                 ans = b.nextInt();
-                for (int i = 0; i < flowers.size(); i++) {
-                    if (bouquets.get(i).getProductID().equals(ans)) {
-                        bouquets.remove(i);
+                for (int i = 0; i < products.size(); i++) {
+                    if (products.get(i).getProductID().equals(ans)) {
+                        products.remove(i);
                         System.out.println("Product have been Deleted!\n");
                     } else {
                         System.out.println("Product not found.\n");
                     }
                 }
-            } //            else if (type.equals("3")) {
-            //                System.out.println("Product ID\t" + "Product Category\t" + "Product Name\t" + "Product Quantity\t" + "Product Price\t" + "Product Description\t");
-            //                System.out.println("====================================================================================================================");
-            //                for (int i = 0; i < product.size(); i++) {
-            //                    if (product.get(i).productCat == "Floral Arrangements") {
-            //                        System.out.printf("%-2d\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n", product.get(i).productID, product.get(i).getProductCat(), product.get(i).getProductName(), product.get(i).getProductQuantity(), product.get(i).productprice, product.get(i).productDescription);
-            //
-            //                    }
-            //                }
-            //            } 
+            }
             else if (type.equals("4")) {
-                productMain(flowers, bouquets);
+                productMain(products);
             } else if (!type.matches("^[1-4]$")) {
                 System.out.println("Incorrect input, please enter input as listed.");
             }
@@ -466,10 +539,10 @@ public class ProductMenu {
             Scanner s = new Scanner(System.in);
             ans = s.nextInt();
             if (ans == 1) {
-                DeleteProduct(flowers, bouquets);
+                DeleteProduct(products);
                 a = true;
             } else if (ans == 2) {
-                productMain(flowers, bouquets);
+                productMain(products);
                 a = true;
             } else if (ans == 3) {
                 System.exit(0);
@@ -477,5 +550,54 @@ public class ProductMenu {
             count++;
         }
     }
+    
+    public static void showOffer(ListInterface<Product> products ){
+        Date date = new Date();
+        LocalDate today = LocalDate.now();
+        int month = today.getMonthValue();
+            
+         System.out.println("Product ID\t" + "Product Category\t" + "Product Name\t" + "Product Quantity\t" + "Product Price\t" + "Product Description\t");
+         System.out.println("====================================================================================================================");
+           for(int i=0;i<products.size();i++){
+                if(month == products.get(i).getDiscountMonth()){
+                        double newPrice1 = (products.get(i).getProductPrice() * (100-products.get(i).getDiscount())/100);
+                         products.get(i).setProductPrice(newPrice1);
+                         
+                   
+               System.out.printf("%-2s\t\t%-18s\t %-10s\t\t%-2d \t\t%.2f\t\t%-20s\n", products.get(i).getProductID(), products.get(i).getProductCat(), products.get(i).getProductName(), products.get(i).getProductQuantity(), products.get(i).getProductPrice(), products.get(i).getProductDescription());
+                }
+                
+         }
+           int count = 0;
+        
+        int ans1 = 0;
+        System.out.println("Please Select Your Option");
+        System.out.println("1.Return to Main Menu");
+        System.out.println("2.Exit");
+        System.out.print("Enter Option: ");
+        Scanner sc = new Scanner(System.in);
+        ans1 = sc.nextInt();
+        while (a != true) {
+            if (count >= 1) {
+                System.out.println("Incorrect Input,Only enter 1 ,2 and 3 only");
+            }
+            if (ans1 == 1) {
+                productMain(products);
+                a = true;
+            } else if (ans1 == 2) {
+                 System.exit(0);
+                a = true;
+            }
+            //Cannot press 1
+            count++;
+        }
+           
+    }
+    
+    
+   
+      
 
 }
+
+

@@ -64,7 +64,7 @@ public class FlowerOrder {
                 }while(!qty.matches("^([1-9]|[1-9][0-9])$") && Integer.parseInt(qty) < flowers.get(Integer.parseInt(n) - 1).getProductQuantity());
                 
                 
-                flowerTtlPrice = flower.calculateBill(flowers.get(Integer.parseInt(n) - 1).getProductPrice(), Integer.parseInt(qty));
+                //flowerTtlPrice = flower.calculateBill(flowers.get(Integer.parseInt(n) - 1).getProductPrice(), Integer.parseInt(qty));
                 flowers.get(Integer.parseInt(n) - 1).setProductQuantity(flowers.get(Integer.parseInt(n) - 1).getProductQuantity()- Integer.parseInt(qty));
                 
                 
