@@ -1,4 +1,3 @@
- 
 package Entities;
 
 /*
@@ -10,7 +9,7 @@ package Entities;
 
 
 /**
-
+ *
  * @author Desmond Chooi
  */
 public class Customer {
@@ -85,5 +84,4 @@ public class Customer {
     
     
     
-
 }
